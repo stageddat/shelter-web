@@ -122,27 +122,72 @@ Each block follows the meta JSON. Blocks are self-describing and can be skipped 
 
 ---
 
-## Compatibility
+## Legacy Compatibility (Current Implementation)
 
 | FORMAT_VERSION | SCHEMA_VERSION | App Version | Notes                          |
 |----------------|----------------|-------------|--------------------------------|
 | 1              | 2              | 0.7.4       | Added recovery key fields      |
 | 1              | 1              | 0.6.0       | Initial release                |
 
-### Rules
+The current implementation stores `FORMAT_VERSION` and `SCHEMA_VERSION` as separate one-byte
+values. This is the legacy versioning scheme; the policy below is proposed for the next backup
+format and is not implemented yet.
 
-- A client **must reject** files where `FORMAT_VERSION < MIN_SUPPORTED_FORMAT` or `FORMAT_VERSION > FORMAT_VERSION`.
+### Legacy Rules
+
+- A client **must reject** files where `FORMAT_VERSION` is below `MIN_SUPPORTED_FORMAT` or above
+  the current supported `FORMAT_VERSION`.
 - A client **must reject** files where `SCHEMA_VERSION < MIN_SUPPORTED_SCHEMA`.
 - A client **should warn** (but not reject) files where `SCHEMA_VERSION > current`, as they may have been created by a newer version of the app.
 - Unknown block types **must be skipped**, not rejected — forward compatibility.
 
+The current codec calculates the CRC32 over the header, not over the blocks payload as described
+in the header table below. This is a known mismatch between the legacy implementation and this
+format description.
+
 ---
 
-## Changelog
-> [!NOTE]
-> **vXX.YY**<br/>
-> **XX** is the meta version<br/>
-> **YY** is the schema version
+## Proposed Versioning Policy
+
+The next backup format should use one version for the complete backup data format, written as
+`MAJOR.MINOR` (for example, `1.2`). This replaces the separate `FORMAT_VERSION`,
+`SCHEMA_VERSION`, and `metaVersion` compatibility counters. `appVersion` remains informational
+and identifies the Shelter release that created the backup.
+
+The version describes the whole backup contract: the header, metadata, block layout, and the data
+inside blocks. Its compatibility rules are:
+
+- **Different major:** reject the backup. A major change means an older importer cannot safely
+  understand the format.
+- **Same major, backup minor is newer:** allow the user to continue after a warning that fields
+  unknown to this app may be ignored and lost if the data is exported again.
+- **Same major, backup minor is equal or older:** import normally.
+
+This policy depends on strict rules for minor releases. A minor release may add optional fields or
+unknown block types, but must not change the meaning or type of existing fields, remove required
+fields, or change the binary layout. Importers must ignore unknown optional fields and skip unknown
+block types. Any change that breaks those guarantees requires a new major version.
+
+The exact encoding of `MAJOR.MINOR` in the binary header is still to be decided. This proposal
+defines the compatibility policy, not a byte-level encoding. On a newer-minor warning, the app
+should explain the possible loss before the user proceeds; it must not silently discard data.
+
+### Compatibility Examples
+
+| Importer supports | Backup version | Result |
+|-------------------|----------------|--------|
+| `1.3`             | `1.2`          | Import normally |
+| `1.3`             | `1.7`          | Warn, then allow import; unknown newer fields may be lost |
+| `1.3`             | `2.0`          | Reject: unsupported major |
+| `2.0`             | `1.7`          | Reject unless explicit support for major `1` is implemented |
+
+---
+
+## Legacy Changelog
+
+The labels below describe the old `metaVersion.schemaVersion` convention. They are historical
+labels only; the proposed versioning policy above uses one `MAJOR.MINOR` version for the complete
+backup format.
 
 ### v1.2 — Recovery Key Fields
 **Added in app version:** `0.7.4`
