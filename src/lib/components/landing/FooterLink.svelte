@@ -5,11 +5,11 @@
 		href,
 		external = false,
 		children
-	} = $props<{
+	}: {
 		href: string;
 		external?: boolean;
 		children?: Snippet;
-	}>();
+	} = $props();
 </script>
 
 <a
