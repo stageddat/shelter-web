@@ -116,19 +116,19 @@
 	</div>
 
 	{#if isLoading}
-		<p class="animate-pulse text-center font-patrick text-lg text-muted-foreground lg:text-xl">
+		<p class="animate-pulse text-center font-sans text-lg text-muted-foreground lg:text-xl">
 			{m['app.search.preparingEngine']()}
 		</p>
 	{:else}
 		<div class="flex flex-col gap-3 lg:gap-4">
 			{#each results as result, i (i)}
 				<div class="flex flex-col gap-1 rounded-xl border bg-card p-4 shadow-xs">
-					<h3 class="font-patrick text-xl font-bold lg:text-2xl">{result.title}</h3>
+					<h3 class="font-sans text-xl font-bold lg:text-2xl">{result.title}</h3>
 					<p class="mb-2 text-xs text-muted-foreground">{result.date}</p>
 
 					{#if query.trim() !== ''}
 						<p
-							class="rounded-md border border-dashed bg-muted/30 p-2 font-patrick text-sm leading-relaxed text-muted-foreground lg:text-base"
+							class="rounded-md border border-dashed bg-muted/30 p-2 font-sans text-sm leading-relaxed text-muted-foreground lg:text-base"
 						>
 							{#each result.highlightTokens as token, i (i)}
 								{#if token.highlight}

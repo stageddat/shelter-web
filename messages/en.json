@@ -182,7 +182,13 @@
           "title": "appereance",
           "theme": "theme",
           "language": "language",
-          "languageWarning": "this will reload the page!"
+          "languageWarning": "this will reload the page!",
+          "themes": {
+            "system": "system",
+            "light": "light",
+            "dark": "dark",
+            "mochaLavender": "mocha lavender"
+          }
         },
         "user": {
           "title": "user",

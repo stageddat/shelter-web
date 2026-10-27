@@ -48,7 +48,7 @@
 						{...props}
 						type="button"
 						onclick={() => setLocale(locale)}
-						class="flex w-full items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent/25"
+						class="flex w-full items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent"
 					>
 						<span class="w-4! text-muted-foreground">
 							{#if locale === getLocale()}<Check />{/if}
@@ -77,7 +77,7 @@
 						{...props}
 						type="button"
 						onclick={() => setLocale(locale)}
-						class="flex w-full items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent/25"
+						class="flex w-full items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent"
 					>
 						<span class="w-4! text-muted-foreground">
 							{#if locale === getLocale()}<Check />{/if}

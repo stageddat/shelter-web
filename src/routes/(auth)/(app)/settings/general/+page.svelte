@@ -1,6 +1,5 @@
 <script lang="ts">
 	import LanguageSelector from '$lib/components/shared/LanguageSelector.svelte';
-	import ThemeSelector from '$lib/components/shared/ThemeSelector.svelte';
 	import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 	import { Copy, Check, X } from '@lucide/svelte';
 	import * as InputGroup from '$lib/components/ui/input-group/index';
@@ -9,6 +8,7 @@
 	import { onMount } from 'svelte';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
 	import { m } from '$lib/paraglide/messages';
+	import { ThemeSelector } from 'shelter-assets';
 
 	const auth = getAuthContext();
 
@@ -70,7 +70,15 @@
 			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
 				{m['app.settings.general.appearance.theme']()}
 			</p>
-			<ThemeSelector />
+			<ThemeSelector
+				label={m['app.settings.general.appearance.theme']()}
+				labels={{
+					system: m['app.settings.general.appearance.themes.system'](),
+					light: m['app.settings.general.appearance.themes.light'](),
+					dark: m['app.settings.general.appearance.themes.dark'](),
+					'mocha-lavender': m['app.settings.general.appearance.themes.mochaLavender']()
+				}}
+			/>
 		</div>
 		<hr class="my-4 border-current opacity-10" />
 		<div class="flex flex-row items-center justify-between gap-2">

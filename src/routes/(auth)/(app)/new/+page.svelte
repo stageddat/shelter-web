@@ -67,7 +67,7 @@
 			type="text"
 			value={entry.title}
 			oninput={(e) => (entry.title = e.currentTarget.value)}
-			class="font-editor mb-4 w-full border-b-2 border-accent bg-transparent text-xl outline-none placeholder:text-muted-foreground lg:text-2xl"
+			class="font-editor mb-4 w-full border-b-2 border-primary bg-transparent text-xl outline-none placeholder:text-muted-foreground lg:text-2xl"
 		/>
 	</div>
 

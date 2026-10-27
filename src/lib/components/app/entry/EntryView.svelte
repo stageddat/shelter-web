@@ -99,7 +99,7 @@
 		value={title}
 		disabled={!isEditing}
 		oninput={(e) => (title = e.currentTarget.value)}
-		class="mb-4 w-full border-b-2 border-accent bg-transparent text-2xl outline-none placeholder:text-muted-foreground"
+		class="mb-4 w-full border-b-2 border-primary bg-transparent text-2xl outline-none placeholder:text-muted-foreground"
 	/>
 </div>
 

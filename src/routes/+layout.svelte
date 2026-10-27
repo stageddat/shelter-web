@@ -3,9 +3,12 @@
 	import favicon from '$lib/assets/favicon.ico';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { onMount } from 'svelte';
-	import { ModeWatcher } from 'mode-watcher';
+	import { BreakpointIndicator, watchThemePreference } from 'shelter-assets';
 	import { dev } from '$app/environment';
 	import { m } from '$lib/paraglide/messages';
+
+	// seguir el tema si cambia en otra pestaña o en el sistema (con 'system')
+	onMount(() => watchThemePreference());
 
 	onMount(async () => {
 		if (pwaInfo) {
@@ -40,17 +43,7 @@
 	{@html webManifest}
 </svelte:head>
 
-<ModeWatcher />
 {#if dev}
-	<div
-		class="fixed bottom-2 left-2 z-50 rounded bg-black/80 px-2 py-1 font-mono text-base text-white"
-	>
-		<span class="block sm:hidden">xs</span>
-		<span class="hidden sm:block md:hidden">sm</span>
-		<span class="hidden md:block lg:hidden">md</span>
-		<span class="hidden lg:block xl:hidden">lg</span>
-		<span class="hidden xl:block 2xl:hidden">xl</span>
-		<span class="hidden 2xl:block">2xl</span>
-	</div>
+	<BreakpointIndicator />
 {/if}
 {@render children()}
