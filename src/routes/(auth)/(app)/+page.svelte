@@ -145,7 +145,7 @@
 			>
 				<div class="mb-3 flex items-center justify-between px-3">
 					<h3 class="text-xl font-semibold lg:text-2xl">{m['app.home.recentEntries.title']()}</h3>
-					<Button variant="ghost" href={resolve('/app/entries')} class="text-base lg:text-xl">
+					<Button variant="ghost" href={resolve('/entries')} class="text-base lg:text-xl">
 						{m['app.home.recentEntries.viewAll']()}
 					</Button>
 				</div>
@@ -188,7 +188,7 @@
 					<Button
 						variant="ghost"
 						class="flex h-fit items-center justify-between border-b border-muted px-4 py-2 text-left transition hover:bg-muted/50"
-						href="/app/new"
+						href="/new"
 					>
 						<div class="flex items-center gap-4">
 							<Pencil class="h-5! w-5! text-primary lg:h-6! lg:w-6!" />
@@ -207,7 +207,7 @@
 					<Button
 						variant="ghost"
 						class="flex h-fit items-center justify-between border-b border-muted px-4 py-2 text-left transition hover:bg-muted"
-						href="/app/search"
+						href="/search"
 					>
 						<div class="flex items-center gap-4">
 							<Search class="h-5! w-5! text-primary lg:h-6! lg:w-6!" />
@@ -226,7 +226,7 @@
 					<Button
 						variant="ghost"
 						class="flex h-fit items-center justify-between border-b border-muted px-4 py-2 text-left transition hover:bg-muted"
-						href="/app/calendar"
+						href="/calendar"
 					>
 						<div class="flex items-center gap-4">
 							<Calendar class="h-5! w-5! text-primary lg:h-6! lg:w-6!" />

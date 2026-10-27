@@ -47,7 +47,7 @@
 			{#each settingsCategories as category (category.id)}
 				{@const isActive = activeId === category.id}
 				<button
-					onclick={() => goto(`/app/settings/${category.id}`)}
+					onclick={() => goto(`/settings/${category.id}`)}
 					class="relative flex items-center gap-4 rounded-2xl px-4 py-3 text-left transition-all duration-200
 						{isActive
 						? 'bg-primary/10 text-primary'

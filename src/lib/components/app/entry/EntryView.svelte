@@ -58,7 +58,7 @@
 	<Button
 		variant="ghost"
 		class="flex items-center gap-1 px-3! py-6! text-2xl"
-		href={resolve('/app/entries')}
+		href={resolve('/entries')}
 	>
 		<ArrowLeft class="mt-1 -mr-0.5" />
 		entries

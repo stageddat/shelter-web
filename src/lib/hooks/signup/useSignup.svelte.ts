@@ -51,7 +51,7 @@ export function useSignup() {
 				auth.user = user ?? undefined;
 			}
 
-			goto(resolve('/app'));
+			goto(resolve('/'));
 		} catch (err) {
 			console.error('registration error:', err);
 			error = err instanceof Error ? err.message : 'registration failed';

@@ -75,7 +75,7 @@ so have a nice day and bye bye!
 	<div class="flex flex-col gap-1">
 		{#each settingsCategories as category (category.id)}
 			<button
-				onclick={() => goto(`/app/settings/${category.id}`)}
+				onclick={() => goto(`/settings/${category.id}`)}
 				class="flex items-center gap-4 rounded-2xl px-4 py-4 text-left transition-colors hover:bg-muted"
 			>
 				<div class="rounded-xl bg-muted p-2.5">

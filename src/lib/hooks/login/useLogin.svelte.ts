@@ -43,7 +43,7 @@ export function useLogin() {
 			const user = await getUser();
 			auth.masterKey = masterKey;
 			auth.user = user ?? undefined;
-			goto(resolve('/app'));
+			goto(resolve('/'));
 		} catch (err) {
 			if (err instanceof Error && err.message === 'incorrect password') {
 				error = 'invalid password :(. please try again.';

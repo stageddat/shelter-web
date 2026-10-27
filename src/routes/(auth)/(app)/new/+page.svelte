@@ -18,7 +18,7 @@
 		try {
 			const entryId = await entry.handleSave(contentRef, wordCount, charCount);
 			if (entryId) {
-				const resolved = resolve('/(auth)/app/entries/[id]', { id: entryId });
+				const resolved = resolve('/(auth)/(app)/entries/[id]', { id: entryId });
 				goto(resolved, { replaceState: true });
 			}
 		} catch (err) {
@@ -35,7 +35,7 @@
 	<div class="mb-4 flex items-center justify-between">
 		<Button
 			variant="ghost"
-			href={resolve('/app')}
+			href={resolve('/')}
 			class="flex items-center px-2! py-5! text-xl! lg:px-3! lg:py-6! lg:text-2xl!"
 		>
 			<ArrowLeft class="mt-1 -mr-0.5" />

@@ -12,7 +12,7 @@
 <!-- mobile, boton volver -->
 <div class="mb-4 flex items-center gap-3 lg:hidden">
 	<button
-		onclick={() => goto('/app/settings')}
+		onclick={() => goto('/settings')}
 		class="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
 	>
 		<ArrowLeft class="h-5 w-5" />

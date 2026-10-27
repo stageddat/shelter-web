@@ -141,7 +141,7 @@
 					{/if}
 
 					<a
-						href="/app/entries/{result.id}"
+						href="/entries/{result.id}"
 						class="mt-2 inline-block self-start text-sm font-medium text-blue-500 hover:underline lg:text-base"
 					>
 						{m['app.search.openEntry']()}

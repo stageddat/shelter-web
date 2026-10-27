@@ -33,7 +33,7 @@
 			<div class="flex flex-1 flex-col items-center justify-center gap-2 text-muted-foreground">
 				<p class="text-3xl lowercase lg:text-4xl">{m['app.entries.noEntries']()}</p>
 				<p class="text-2xl lg:text-3xl">{m['app.entries.noEntriesEmoji']()}</p>
-				<Button class="mt-2 p-5! text-lg! tracking-wide lg:text-xl!" href="/app/new">
+				<Button class="mt-2 p-5! text-lg! tracking-wide lg:text-xl!" href="/new">
 					{m['app.entries.beginStory']()}
 				</Button>
 			</div>

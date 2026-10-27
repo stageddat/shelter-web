@@ -17,21 +17,7 @@ export default defineConfig({
 		paraglideVitePlugin({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide',
-			strategy: ['url', 'localStorage', 'preferredLanguage', 'baseLocale'],
-			routeStrategies: [
-				{
-					match: '/app/:path(.*)?',
-					strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
-				},
-				{
-					match: '/login/:path(.*)?',
-					strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
-				},
-				{
-					match: '/signup/:path(.*)?',
-					strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
-				}
-			]
+			strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
 		}),
 		sveltekit(),
 		tailwindcss(),
@@ -39,11 +25,10 @@ export default defineConfig({
 			registerType: 'prompt',
 			kit: {
 				adapterFallback: 'app.html',
-				spa: { fallbackMapping: '/app' }
+				spa: { fallbackMapping: '/' }
 			},
 			workbox: {
-				navigateFallback: '/app',
-				navigateFallbackAllowlist: [/^\/app/, /^\/login/, /^\/signup/, /^\/restore/],
+				navigateFallback: '/',
 				navigateFallbackDenylist: [/^\/robots\.txt/],
 				globPatterns: ['client/**/*.{js,css,woff,woff2}', '**/*.html'],
 
@@ -66,7 +51,7 @@ export default defineConfig({
 				theme_color: '#ffffff',
 				background_color: '#ffffff',
 				display: 'standalone',
-				start_url: '/app',
+				start_url: '/',
 				scope: '/',
 				icons: [
 					{ src: 'android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },

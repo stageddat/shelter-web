@@ -1,8 +1,7 @@
 <script lang="ts">
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { page } from '$app/state';
-	import { getLocale, localizeHref, locales } from '$lib/paraglide/runtime';
+	import { getLocale, locales, setLocale } from '$lib/paraglide/runtime';
 	import { Check, Languages } from '@lucide/svelte';
 
 	let { class: className = '', onlyIcon = false } = $props();
@@ -45,11 +44,11 @@
 		{#each official as locale (locale)}
 			<DropdownMenu.Item>
 				{#snippet child({ props })}
-					<a
+					<button
 						{...props}
-						href={localizeHref(page.url.pathname, { locale })}
-						data-sveltekit-reload
-						class="flex items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent/25"
+						type="button"
+						onclick={() => setLocale(locale)}
+						class="flex w-full items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent/25"
 					>
 						<span class="w-4! text-muted-foreground">
 							{#if locale === getLocale()}<Check />{/if}
@@ -61,7 +60,7 @@
 							class="rounded-full bg-blue-50 px-2 py-0.5 font-mono text-sm tracking-wide text-blue-600 dark:bg-blue-950 dark:text-blue-400"
 							>official</span
 						>
-					</a>
+					</button>
 				{/snippet}
 			</DropdownMenu.Item>
 		{/each}
@@ -74,11 +73,11 @@
 		{#each community as locale (locale)}
 			<DropdownMenu.Item>
 				{#snippet child({ props })}
-					<a
+					<button
 						{...props}
-						href={localizeHref(page.url.pathname, { locale })}
-						data-sveltekit-reload
-						class="flex items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent/25"
+						type="button"
+						onclick={() => setLocale(locale)}
+						class="flex w-full items-center gap-3 border-b border-border/20 px-3 py-2.5 text-base transition-colors last:border-0 hover:bg-accent/25"
 					>
 						<span class="w-4! text-muted-foreground">
 							{#if locale === getLocale()}<Check />{/if}
@@ -90,7 +89,7 @@
 							class="rounded-full border border-border/40 bg-secondary px-2 py-0.5 font-mono text-xs tracking-wide text-muted-foreground"
 							>community</span
 						>
-					</a>
+					</button>
 				{/snippet}
 			</DropdownMenu.Item>
 		{/each}
