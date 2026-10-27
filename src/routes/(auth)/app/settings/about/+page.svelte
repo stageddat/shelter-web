@@ -2,7 +2,7 @@
 	import packageJson from '$lib/../../package.json';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
 	import { m } from '$lib/paraglide/messages';
-	import { localizeHref } from '$lib/paraglide/runtime';
+	import { landingUrl } from '$lib/utils/landing';
 	import { Bug, Coffee, Globe, HouseHeart, Users } from '@lucide/svelte';
 </script>
 
@@ -51,7 +51,7 @@
 		<p class="text-base tracking-wide lowercase lg:text-xl">
 			{m['app.settings.about.info.website']()}
 			<a
-				href={localizeHref('/')}
+				href={landingUrl()}
 				target="_blank"
 				rel="noopener noreferrer"
 				class="underline underline-offset-2 opacity-60 transition-opacity hover:opacity-100"
@@ -94,7 +94,7 @@
 			{m['app.settings.about.credits.description']()}
 		</p>
 		<a
-			href={localizeHref('/credits')}
+			href={landingUrl('/credits')}
 			target="_blank"
 			class="flex w-full items-center justify-between rounded-lg border border-current px-4 py-2 text-base tracking-wider lowercase opacity-60 transition-opacity hover:opacity-100 lg:text-xl"
 		>

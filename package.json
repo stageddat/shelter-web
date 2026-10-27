@@ -23,7 +23,6 @@
 		"@lucide/svelte": "^1.59.0",
 		"@sveltejs/adapter-auto": "^7.0.1",
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/enhanced-img": "^1.0.0",
 		"@sveltejs/kit": "^2.70.3",
 		"@sveltejs/vite-plugin-svelte": "^7.3.1",
 		"@tailwindcss/vite": "^4.3.3",
@@ -43,7 +42,6 @@
 		"prettier-plugin-svelte": "^3.5.2",
 		"prettier-plugin-tailwindcss": "^0.7.4",
 		"shadcn-svelte": "^1.7.0",
-		"super-sitemap": "^1.0.12",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.7.7",
 		"svelte-sonner": "^1.2.1",
@@ -69,7 +67,6 @@
 		"d3": "^7.9.0",
 		"d3-scale": "^4.0.2",
 		"dexie": "^4.4.6",
-		"flag-icons": "^7.6.0",
 		"minisearch": "^7.2.0",
 		"zod": "^4.6.7"
 	}

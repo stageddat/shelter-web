@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LanguageSelector from '$lib/components/landing/LanguageSelector.svelte';
+	import LanguageSelector from '$lib/components/shared/LanguageSelector.svelte';
 	import ThemeSelector from '$lib/components/shared/ThemeSelector.svelte';
 	import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 	import { Copy, Check, X } from '@lucide/svelte';

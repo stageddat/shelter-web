@@ -1,8 +1,6 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.ico';
-	import { locales, localizeHref } from '$lib/paraglide/runtime';
-	import { page } from '$app/state';
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { onMount } from 'svelte';
 	import { ModeWatcher } from 'mode-watcher';
@@ -28,8 +26,8 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>{m['metadata.landing.title']()}</title>
-	<meta name="description" content={m['metadata.landing.description']()} />
+	<title>{m['metadata.app.title']()}</title>
+	<meta name="description" content={m['metadata.app.description']()} />
 	{#if !import.meta.env.DEV}
 		<script
 			defer
@@ -41,14 +39,6 @@
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html webManifest}
 </svelte:head>
-
-<div class="sr-only" aria-hidden="true">
-	{#each locales as locale (locale)}
-		<a href={localizeHref(page.url.pathname, { locale })} data-sveltekit-reload tabindex="-1">
-			{locale}
-		</a>
-	{/each}
-</div>
 
 <ModeWatcher />
 {#if dev}
