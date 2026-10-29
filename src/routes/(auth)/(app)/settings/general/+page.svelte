@@ -1,5 +1,4 @@
 <script lang="ts">
-	import LanguageSelector from '$lib/components/shared/LanguageSelector.svelte';
 	import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 	import { Copy, Check, X } from '@lucide/svelte';
 	import * as InputGroup from '$lib/components/ui/input-group/index';
@@ -8,9 +7,19 @@
 	import { onMount } from 'svelte';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
 	import { m } from '$lib/paraglide/messages';
-	import { ThemeSelector } from 'shelter-assets';
+	import { getLocale, isLocale, setLocale } from '$lib/paraglide/runtime';
+	import { LanguageSelector, ThemeSelector, type LanguageOption } from 'shelter-assets';
 
 	const auth = getAuthContext();
+
+	const languages: LanguageOption[] = [
+		{ locale: 'en', label: 'english', official: true },
+		{ locale: 'ca', label: 'català', official: true },
+		{ locale: 'es', label: 'español', official: false },
+		{ locale: 'de', label: 'deutsch', official: false },
+		{ locale: 'da', label: 'dansk', official: false },
+		{ locale: 'ru', label: 'русский', official: false }
+	];
 
 	// copy
 	let copied = $state<'username' | 'id' | null>(null);
@@ -90,7 +99,17 @@
 					{m['app.settings.general.appearance.languageWarning']()}
 				</p>
 			</div>
-			<LanguageSelector />
+			<LanguageSelector
+				current={getLocale()}
+				{languages}
+				// usar onselect en lugar de href para guardar en localStorage
+				onselect={(locale) => isLocale(locale) && setLocale(locale)}
+				labels={{
+					language: m['app.settings.general.appearance.language'](),
+					official: m['app.settings.general.appearance.languageGroups.official'](),
+					community: m['app.settings.general.appearance.languageGroups.community']()
+				}}
+			/>
 		</div>
 	</div>
 

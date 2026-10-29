@@ -188,6 +188,10 @@
             "light": "light",
             "dark": "dark",
             "mochaLavender": "mocha lavender"
+          },
+          "languageGroups": {
+            "official": "official translations",
+            "community": "community translations"
           }
         },
         "user": {

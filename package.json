@@ -67,7 +67,7 @@
 		"d3-scale": "^4.0.2",
 		"dexie": "^4.4.6",
 		"minisearch": "^7.2.0",
-		"shelter-assets": "^0.1.0",
+		"shelter-assets": "^0.2.0",
 		"zod": "^4.6.7"
 	}
 }
