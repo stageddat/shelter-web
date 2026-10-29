@@ -2,7 +2,7 @@
 	import { useSignup } from '$lib/hooks/signup/useSignup.svelte';
 	import { formFields } from '$lib/constants/signup/formFields';
 	import FormField from '$lib/components/signup/FormField.svelte';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from 'shelter-assets';
 	import { resolve } from '$app/paths';
 	import { m } from '$lib/paraglide/messages';
 
@@ -25,7 +25,7 @@
 			<div class="rounded-xl border bg-card px-4 py-3 shadow-lg md:px-8 md:py-6">
 				<form onsubmit={signup.handleSubmit} class="space-y-6">
 					<!-- header -->
-					<h1 class="mb-8 text-4xl font-bold text-foreground lg:text-5xl">{m['signup.title']()}</h1>
+					<h1>{m['signup.title']()}</h1>
 
 					<!-- form -->
 					<div class="space-y-4">
@@ -39,23 +39,18 @@
 						{/each}
 					</div>
 
-					<!-- err -->
+					<!-- mostrar error -->
 					{#if signup.error}
-						<p class="text-sm font-medium text-destructive">{signup.error}</p>
+						<p class="text-destructive">{signup.error}</p>
 					{/if}
 
 					<!-- btn -->
-					<Button
-						type="submit"
-						class="w-full bg-primary text-lg tracking-wide text-primary-foreground hover:bg-primary/85"
-						size="lg"
-						disabled={signup.isLoading}
-					>
+					<Button type="submit" class="w-full" disabled={signup.isLoading}>
 						{signup.isLoading ? m['signup.button.loading']() : m['signup.button.default']()}
 					</Button>
 				</form>
 
-				<p class="text-md mt-4 text-center text-muted-foreground">
+				<p class="mt-4 text-center text-muted-foreground">
 					{m['signup.alreadyHaveDiary']()}
 					<a
 						class="text-primary-dark font-medium underline transition-colors hover:text-primary"

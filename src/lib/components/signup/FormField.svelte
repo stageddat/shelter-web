@@ -23,7 +23,7 @@
 </script>
 
 <div class="space-y-2">
-	<Label class="text-xl" for={String(field.id)}>
+	<Label for={String(field.id)}>
 		{field.label}
 	</Label>
 
@@ -36,7 +36,6 @@
 			value={value ?? ''}
 			oninput={onChange}
 			placeholder={field.placeholder}
-			class="text-lg!"
 			required
 			{disabled}
 		/>
