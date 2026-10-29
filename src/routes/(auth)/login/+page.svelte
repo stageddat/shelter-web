@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import { InputGroup, InputGroupAddon, InputGroupInput } from '$lib/components/ui/input-group';
+	import { InputGroup, InputGroupAddon, InputGroupInput } from 'shelter-assets';
+	import { Label } from 'shelter-assets/interactive';
 	import Lock from '@lucide/svelte/icons/lock';
 	import LoadingText from '$lib/components/shared/LoadingText.svelte';
 	import { m } from '$lib/paraglide/messages';

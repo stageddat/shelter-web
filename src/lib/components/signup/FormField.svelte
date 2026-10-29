@@ -1,17 +1,12 @@
 <script lang="ts">
-	import { Label } from '$lib/components/ui/label';
+	import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from 'shelter-assets';
 	import {
-		InputGroup,
-		InputGroupAddon,
-		InputGroupButton,
-		InputGroupInput
-	} from '$lib/components/ui/input-group';
-	import {
+		Label,
 		Tooltip,
 		TooltipContent,
 		TooltipTrigger,
 		TooltipProvider
-	} from '$lib/components/ui/tooltip';
+	} from 'shelter-assets/interactive';
 	import { type FormFieldConfig } from '$lib/constants/signup/formFields';
 
 	interface FormFieldProps {

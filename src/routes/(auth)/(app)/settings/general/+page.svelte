@@ -1,14 +1,21 @@
 <script lang="ts">
 	import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 	import { Copy, Check, X } from '@lucide/svelte';
-	import * as InputGroup from '$lib/components/ui/input-group/index';
 	import { updateDisplayName } from '$lib/services/app/user.service';
 	import Switch from '$lib/components/ui/switch/switch.svelte';
 	import { onMount } from 'svelte';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale, isLocale, setLocale } from '$lib/paraglide/runtime';
-	import { LanguageSelector, ThemeSelector, type LanguageOption } from 'shelter-assets';
+	import {
+		InputGroup,
+		InputGroupAddon,
+		InputGroupButton,
+		InputGroupInput,
+		LanguageSelector,
+		ThemeSelector,
+		type LanguageOption
+	} from 'shelter-assets';
 
 	const auth = getAuthContext();
 
@@ -122,32 +129,32 @@
 			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
 				{m['app.settings.general.user.displayName']()}
 			</p>
-			<InputGroup.Root class="w-40 lg:w-sm">
-				<InputGroup.Input
+			<InputGroup class="w-40 lg:w-sm">
+				<InputGroupInput
 					class="text-base! lg:text-xl!"
 					placeholder={m['app.settings.general.user.displayNamePlaceholder']()}
 					bind:value={displayName}
 					maxlength={20}
 				/>
-				<InputGroup.Addon align="inline-end" class="margin-0 gap-0">
+				<InputGroupAddon align="inline-end" class="margin-0 gap-0">
 					{#if displayName !== auth.user?.displayName}
-						<InputGroup.Button
+						<InputGroupButton
 							variant="ghost"
 							onclick={() => (displayName = auth.user?.displayName ?? '')}
 							class="p-1! text-red-500 hover:bg-red-500/10 hover:text-red-500 dark:text-red-400 dark:hover:bg-red-400/10"
 						>
 							<X class="size-5 p-0!" />
-						</InputGroup.Button>
-						<InputGroup.Button
+						</InputGroupButton>
+						<InputGroupButton
 							variant="ghost"
 							onclick={handleSaveDisplayName}
 							class="p-1! text-green-600 hover:bg-green-500/10 hover:text-green-600 dark:text-green-400 dark:hover:bg-green-400/10"
 						>
 							<Check class="size-5 p-0!" />
-						</InputGroup.Button>
+						</InputGroupButton>
 					{/if}
-				</InputGroup.Addon>
-			</InputGroup.Root>
+				</InputGroupAddon>
+			</InputGroup>
 		</div>
 		<hr class="my-4 border-current opacity-10" />
 		<div class="flex flex-row items-center justify-between gap-2">
