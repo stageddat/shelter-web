@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { InputGroup, InputGroupAddon, InputGroupInput } from 'shelter-assets';
+	import { Button, InputGroup, InputGroupAddon, InputGroupInput } from 'shelter-assets';
 	import { Label } from 'shelter-assets/interactive';
 	import Lock from '@lucide/svelte/icons/lock';
-	import LoadingText from '$lib/components/shared/LoadingText.svelte';
+	import PasswordVisibilityButton from '$lib/components/shared/PasswordVisibilityButton.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { useLogin } from '$lib/hooks/login/useLogin.svelte';
 
 	const login = useLogin();
+	let passwordVisible = $state(false);
 
 	function onFormSubmit(e: SubmitEvent) {
 		e.preventDefault();
@@ -20,53 +20,47 @@
 </svelte:head>
 
 {#if login.username}
-	<main class="flex min-h-screen items-center justify-center px-2 py-4 md:px-8 md:py-16">
-		<div class="w-full max-w-2xl">
-			<div class="rounded-xl border bg-card px-4 py-3 shadow-lg md:px-8 md:py-6">
-				<form onsubmit={onFormSubmit} class="space-y-6">
-					<h1 class="mb-2 text-3xl font-bold tracking-wide text-foreground lg:text-5xl">
-						{m['login.title']({ username: login.username })}
-					</h1>
+	<main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-8 sm:py-16">
+		<!-- en movil sin tarjeta: el formulario ocupa la pantalla -->
+		<div
+			class="w-full max-w-md sm:max-w-lg sm:rounded-xl sm:border sm:bg-card sm:px-8 sm:py-6 sm:shadow-lg lg:max-w-xl"
+		>
+			<form onsubmit={onFormSubmit} class="space-y-6">
+				<h1>{m['login.title']({ username: login.username })}</h1>
 
-					<div class="space-y-2 {login.error ? 'mb-2' : 'mb-4'}">
-						<Label class="mb-0.5 text-xl" for="password">{m['login.password.label']()}</Label>
-						<InputGroup>
-							<InputGroupInput
-								type="password"
-								id="password"
-								name="password"
-								autocomplete="current-password"
-								value={login.password}
-								oninput={login.handleChange}
-								placeholder={m['login.password.placeholder']()}
-								class="text-xl!"
-								required
-								disabled={login.isLoading}
-							/>
-							<InputGroupAddon>
-								<Lock />
-							</InputGroupAddon>
-						</InputGroup>
-					</div>
+				<div class="space-y-2">
+					<!-- el placeholder ya lo dice: la etiqueta solo para lectores de pantalla -->
+					<Label for="password" class="sr-only">{m['login.password.label']()}</Label>
+					<InputGroup>
+						<InputGroupInput
+							type={passwordVisible ? 'text' : 'password'}
+							id="password"
+							name="password"
+							autocomplete="current-password"
+							value={login.password}
+							oninput={login.handleChange}
+							placeholder={m['login.password.placeholder']()}
+							aria-invalid={login.error ? true : undefined}
+							aria-describedby={login.error ? 'password-error' : undefined}
+							required
+							disabled={login.isLoading}
+						/>
+						<InputGroupAddon>
+							<Lock />
+						</InputGroupAddon>
+						<PasswordVisibilityButton bind:visible={passwordVisible} />
+					</InputGroup>
 
+					<!-- mostrar error -->
 					{#if login.error}
-						<p class="mb-2 text-sm font-medium text-destructive">{login.error}</p>
+						<p id="password-error" class="text-sm text-destructive-text">{login.error}</p>
 					{/if}
+				</div>
 
-					<Button
-						type="submit"
-						class="w-full bg-primary text-lg tracking-wider text-primary-foreground hover:bg-primary/85"
-						size="lg"
-						disabled={login.isLoading}
-					>
-						{#if login.isLoading}
-							<LoadingText text={m['login.button.loading']()} />
-						{:else}
-							{m['login.button.default']()}
-						{/if}
-					</Button>
-				</form>
-			</div>
+				<Button type="submit" class="w-full" loading={login.isLoading}>
+					{login.isLoading ? m['login.button.loading']() : m['login.button.default']()}
+				</Button>
+			</form>
 		</div>
 	</main>
 {/if}

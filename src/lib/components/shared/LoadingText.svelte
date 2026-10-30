@@ -2,7 +2,7 @@
 	let { text = 'loading' } = $props();
 </script>
 
-<span class="dots text-muted-foreground">{text}</span>
+<span class="dots">{text}</span>
 
 <style>
 	.dots::after {

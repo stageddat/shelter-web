@@ -58,15 +58,17 @@
   },
   "signup": {
     "title": "welcome to shelter!",
+    "subtitle": "let's build your own super safe little place :3",
     "form": {
       "username": {
-        "label": "how should we call you?",
+        "label": "what should we call you?",
         "placeholder": "enter your username",
-        "tooltip": "this is how we will call you across the app, you don't have to use your real name"
+        "tooltip": "this is how we'll call you in the app, you don't have to use your real name!"
       },
       "password": {
         "label": "choose a password",
-        "placeholder": "set a password"
+        "placeholder": "set a password",
+        "hint": "at least 8 characters. if you forget it, nobody can recover your entries, not even us!! but don't worry, you can create a recovery key in settings :)"
       },
       "passwordRepeat": {
         "label": "repeat password",
@@ -74,10 +76,10 @@
       }
     },
     "button": {
-      "default": "create my diary",
-      "loading": "creating your diary..."
+      "default": "build my shelter",
+      "loading": "building your shelter..."
     },
-    "alreadyHaveDiary": "already have a diary?",
+    "alreadyHaveDiary": "already have a shelter?",
     "restoreDiary": "restore"
   },
   "app": {
@@ -340,6 +342,9 @@
         "hourAgo": "1 hour ago",
         "hoursAgo": "{count} hours ago",
         "noEntries": "no entries yet"
+      },
+      "password": {
+        "show": "show password"
       }
     },
     "greetings": {

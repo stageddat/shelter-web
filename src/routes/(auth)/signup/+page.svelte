@@ -20,46 +20,46 @@
 	</div> -->
 	<div></div>
 {:else}
-	<main class="flex min-h-screen items-center justify-center px-2 py-4 md:px-8 md:py-16">
-		<div class="w-full max-w-2xl">
-			<div class="rounded-xl border bg-card px-4 py-3 shadow-lg md:px-8 md:py-6">
-				<form onsubmit={signup.handleSubmit} class="space-y-6">
-					<!-- header -->
+	<main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-8 sm:py-16">
+		<!-- en movil sin tarjeta: el formulario ocupa la pantalla -->
+		<div
+			class="w-full max-w-md sm:max-w-lg sm:rounded-xl sm:border sm:bg-card sm:px-8 sm:py-6 sm:shadow-lg lg:max-w-xl"
+		>
+			<form onsubmit={signup.handleSubmit} class="space-y-6" novalidate>
+				<!-- header -->
+				<div class="space-y-1">
 					<h1>{m['signup.title']()}</h1>
+					<p class="text-lg text-muted-foreground">{m['signup.subtitle']()}</p>
+				</div>
 
-					<!-- form -->
-					<div class="space-y-4">
-						{#each formFields as field (field.id)}
-							<FormField
-								{field}
-								value={signup.formData[field.id]}
-								onChange={signup.handleChange}
-								disabled={signup.isLoading}
-							/>
-						{/each}
-					</div>
+				<!-- form -->
+				<div class="space-y-4">
+					{#each formFields as field (field.id)}
+						<FormField
+							{field}
+							value={signup.formData[field.id]}
+							onChange={signup.handleChange}
+							error={signup.fieldErrors[field.id]}
+							disabled={signup.isLoading}
+						/>
+					{/each}
+				</div>
 
-					<!-- mostrar error -->
-					{#if signup.error}
-						<p class="text-destructive">{signup.error}</p>
-					{/if}
+				<!-- mostrar error -->
+				{#if signup.error}
+					<p class="text-destructive-text">{signup.error}</p>
+				{/if}
 
-					<!-- btn -->
-					<Button type="submit" class="w-full" disabled={signup.isLoading}>
-						{signup.isLoading ? m['signup.button.loading']() : m['signup.button.default']()}
-					</Button>
-				</form>
+				<!-- btn -->
+				<Button type="submit" class="w-full" loading={signup.isLoading}>
+					{signup.isLoading ? m['signup.button.loading']() : m['signup.button.default']()}
+				</Button>
+			</form>
 
-				<p class="mt-4 text-center text-muted-foreground">
-					{m['signup.alreadyHaveDiary']()}
-					<a
-						class="text-primary-dark font-medium underline transition-colors hover:text-primary"
-						href={resolve('/restore')}
-					>
-						{m['signup.restoreDiary']()}
-					</a>
-				</p>
-			</div>
+			<p class="mt-4 text-center text-muted-foreground">
+				{m['signup.alreadyHaveDiary']()}
+				<a class="link" href={resolve('/restore')}>{m['signup.restoreDiary']()}</a>
+			</p>
 		</div>
 	</main>
 {/if}

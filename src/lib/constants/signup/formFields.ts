@@ -1,6 +1,5 @@
 import { type RegisterInput } from '$lib/schemas/register.schema';
 import User from '@lucide/svelte/icons/user';
-import Info from '@lucide/svelte/icons/info';
 import Lock from '@lucide/svelte/icons/lock';
 import { type LucideIcon } from '@lucide/svelte';
 import type { HTMLInputAttributes } from 'svelte/elements';
@@ -14,8 +13,7 @@ export interface FormFieldConfig {
 	type: string;
 	placeholder?: string;
 	icon: LucideIcon;
-	tooltipIcon?: LucideIcon;
-	tooltipContent?: string;
+	hint?: string;
 }
 
 export const formFields: FormFieldConfig[] = [
@@ -26,9 +24,8 @@ export const formFields: FormFieldConfig[] = [
 		label: m['signup.form.username.label'](),
 		type: 'text',
 		placeholder: m['signup.form.username.placeholder'](),
-		icon: User,
-		tooltipIcon: Info,
-		tooltipContent: m['signup.form.username.tooltip']()
+		icon: User
+		// hint: m['signup.form.username.tooltip']()
 	},
 	{
 		id: 'password',
@@ -37,7 +34,8 @@ export const formFields: FormFieldConfig[] = [
 		label: m['signup.form.password.label'](),
 		type: 'password',
 		placeholder: m['signup.form.password.placeholder'](),
-		icon: Lock
+		icon: Lock,
+		hint: m['signup.form.password.hint']()
 	},
 	{
 		id: 'password2',

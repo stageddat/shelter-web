@@ -14,7 +14,9 @@ export function useSignup() {
 		password2: ''
 	});
 
+	// error general (al crear el diario) y errores de cada campo (validacion)
 	let error = $state('');
+	let fieldErrors = $state<Partial<Record<keyof RegisterInput, string>>>({});
 	let isLoading = $state(false);
 	let isChecking = $state(true);
 
@@ -25,19 +27,26 @@ export function useSignup() {
 			[target.name]: target.value
 		};
 		error = '';
+		fieldErrors = { ...fieldErrors, [target.name]: undefined };
 	};
 
 	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
 		error = '';
+		fieldErrors = {};
 		isLoading = true;
 
 		try {
 			const result = await registerSchema.safeParseAsync(formData);
 
 			if (!result.success) {
-				const firstError = result.error.issues[0]?.message ?? 'invalid data';
-				error = firstError;
+				// el primer error de cada campo, para mostrarlo debajo de ese campo
+				const errors: typeof fieldErrors = {};
+				for (const issue of result.error.issues) {
+					const field = issue.path[0] as keyof RegisterInput;
+					errors[field] ??= issue.message;
+				}
+				fieldErrors = errors;
 				return;
 			}
 
@@ -85,6 +94,9 @@ export function useSignup() {
 		},
 		get error() {
 			return error;
+		},
+		get fieldErrors() {
+			return fieldErrors;
 		},
 		get isLoading() {
 			return isLoading;
