@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ThemeSelector } from 'shelter-assets';
+	import Scene from './Scene.svelte';
 
 	// ruta temporal para probar el cielo en degradado de cada tema
 	const variants = [
@@ -17,6 +18,8 @@
 </svelte:head>
 
 <div class="scene px-4 py-8 sm:px-8 sm:py-16" data-variant={variant}>
+	<Scene />
+
 	<div class="toolbar">
 		{#each variants as v (v.id)}
 			<button
@@ -33,7 +36,7 @@
 
 	<!-- caja vacía con el mismo tamaño que la tarjeta de signup -->
 	<div
-		class="fake-card w-full max-w-md sm:max-w-lg sm:rounded-xl sm:border sm:bg-card sm:shadow-lg lg:max-w-xl"
+		class="fake-card relative z-10 w-full max-w-md sm:max-w-lg sm:rounded-xl sm:border sm:bg-card sm:shadow-lg lg:max-w-xl"
 	></div>
 </div>
 
@@ -72,7 +75,7 @@
 		position: fixed;
 		top: 1rem;
 		left: 1rem;
-		z-index: 10;
+		z-index: 20;
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
@@ -86,6 +89,7 @@
 	}
 
 	.scene {
+		position: relative;
 		display: flex;
 		min-height: 100dvh;
 		align-items: center;
