@@ -53,7 +53,7 @@
     },
     "button": {
       "default": "enter my shelter",
-      "loading": "entering"
+      "loading": "unlocking your shelter"
     },
     "error": {
       "incorrectPassword": "wrong password :( try again!",
@@ -81,7 +81,7 @@
     },
     "button": {
       "default": "build my shelter",
-      "loading": "building your shelter..."
+      "loading": "building your shelter"
     },
     "alreadyHaveDiary": "already have a shelter?",
     "restoreDiary": "restore",

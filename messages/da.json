@@ -75,7 +75,7 @@
         },
         "button": {
             "default": "opret min dagbog",
-            "loading": "opretter din dagbog..."
+            "loading": "opretter din dagbog"
         },
         "alreadyHaveDiary": "har du allerede en dagbog?",
         "restoreDiary": "gendan"

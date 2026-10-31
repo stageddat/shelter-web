@@ -53,7 +53,7 @@
         },
         "button": {
             "default": "acceder a mi shelter",
-            "loading": "accediendo"
+            "loading": "desbloqueando tu shelter"
         }
     },
     "signup": {
@@ -75,7 +75,7 @@
         },
         "button": {
             "default": "crear mi diario",
-            "loading": "creando tu diario..."
+            "loading": "creando tu diario"
         },
         "alreadyHaveDiary": "¿ya tienes un diario?",
         "restoreDiary": "restaurar"

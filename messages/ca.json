@@ -53,7 +53,7 @@
         },
         "button": {
             "default": "accedir al meu shelter",
-            "loading": "accedint"
+            "loading": "desbloquejant el teu shelter"
         }
     },
     "signup": {
@@ -75,7 +75,7 @@
         },
         "button": {
             "default": "crear el meu diari",
-            "loading": "creant el teu diari..."
+            "loading": "creant el teu diari"
         },
         "alreadyHaveDiary": "ja tens un diari?",
         "restoreDiary": "restaurar"
