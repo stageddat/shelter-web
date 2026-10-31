@@ -1,7 +1,6 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
-import { enhancedImages } from '@sveltejs/enhanced-img';
 import { defineConfig } from 'vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import basicSsl from '@vitejs/plugin-basic-ssl';
@@ -18,49 +17,22 @@ export default defineConfig({
 		paraglideVitePlugin({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide',
-			strategy: ['url', 'localStorage', 'preferredLanguage', 'baseLocale'],
-			routeStrategies: [
-				{
-					match: '/app/:path(.*)?',
-					strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
-				},
-				{
-					match: '/login/:path(.*)?',
-					strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
-				},
-				{
-					match: '/signup/:path(.*)?',
-					strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
-				}
-			]
+			strategy: ['localStorage', 'preferredLanguage', 'baseLocale']
 		}),
-		enhancedImages(),
 		sveltekit(),
 		tailwindcss(),
 		SvelteKitPWA({
 			registerType: 'prompt',
 			kit: {
 				adapterFallback: 'app.html',
-				spa: { fallbackMapping: '/app' }
+				spa: { fallbackMapping: '/' }
 			},
 			workbox: {
-				navigateFallback: '/app',
-				navigateFallbackAllowlist: [/^\/app/, /^\/login/, /^\/signup/, /^\/restore/],
-				navigateFallbackDenylist: [/^\/sitemap\.xml/, /^\/robots\.txt/],
+				navigateFallback: '/',
+				navigateFallbackDenylist: [/^\/robots\.txt/],
 				globPatterns: ['client/**/*.{js,css,woff,woff2}', '**/*.html'],
 
 				runtimeCaching: [
-					{
-						urlPattern: ({ url }) => {
-							const publicRoutes = [/^\/app/, /^\/login/, /^\/signup/, /^\/restore/];
-							return !publicRoutes.some((regex) => regex.test(url.pathname));
-						},
-						handler: 'NetworkFirst',
-						options: {
-							cacheName: 'public-marketing-routes',
-							expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 * 7 }
-						}
-					},
 					{
 						urlPattern: /\.(?:png|jpg|webp|svg|ico)$/,
 						handler: 'CacheFirst',
@@ -79,7 +51,7 @@ export default defineConfig({
 				theme_color: '#ffffff',
 				background_color: '#ffffff',
 				display: 'standalone',
-				start_url: '/app',
+				start_url: '/',
 				scope: '/',
 				icons: [
 					{ src: 'android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },

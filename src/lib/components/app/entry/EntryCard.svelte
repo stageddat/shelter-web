@@ -50,7 +50,7 @@
 </AlertDialog.Root>
 
 <a
-	href={resolve(`/app/entries/${entry.id}`)}
+	href={resolve(`/entries/${entry.id}`)}
 	class="group flex items-center rounded-xl border border-border p-4 transition-all hover:bg-muted/50 {className}"
 >
 	<div class="flex-1">

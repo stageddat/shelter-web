@@ -110,7 +110,7 @@
 	}
 
 	.tiptap-editor :global(.tiptap p) {
-		@apply mb-2 font-patrick text-xl leading-relaxed last:mb-0 lg:text-2xl;
+		@apply mb-2 font-sans text-xl leading-relaxed last:mb-0 lg:text-2xl;
 	}
 
 	.tiptap-editor :global(.tiptap h1) {
@@ -126,7 +126,7 @@
 	}
 
 	.tiptap-editor :global(.tiptap li) {
-		@apply mb-1 font-patrick text-xl leading-relaxed lg:text-2xl;
+		@apply mb-1 font-sans text-xl leading-relaxed lg:text-2xl;
 	}
 
 	.tiptap-editor :global(.tiptap ::selection) {

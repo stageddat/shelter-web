@@ -14,37 +14,37 @@
 	} from '@lucide/svelte';
 
 	// para esconder el navbar en configuración
-	let inSettings = $derived(page.url.pathname.startsWith('/app/settings/'));
+	let inSettings = $derived(page.url.pathname.startsWith('/settings/'));
 
 	const links = [
-		{ href: '/app', label: m['app.sidebar.nav.home'](), icon: House },
-		{ href: '/app/entries', label: m['app.sidebar.nav.entries'](), icon: BookOpen },
-		// { href: '/app/calendar', label: 'calendar', icon: Calendar },
-		// { href: '/app/stats', label: 'stats', icon: ChartNoAxesColumn },
-		{ href: '/app/search', label: m['app.sidebar.nav.search'](), icon: Search },
+		{ href: '/', label: m['app.sidebar.nav.home'](), icon: House },
+		{ href: '/entries', label: m['app.sidebar.nav.entries'](), icon: BookOpen },
+		// { href: '/calendar', label: 'calendar', icon: Calendar },
+		// { href: '/stats', label: 'stats', icon: ChartNoAxesColumn },
+		{ href: '/search', label: m['app.sidebar.nav.search'](), icon: Search },
 		{
-			href: '/app/settings',
+			href: '/settings',
 			label: m['app.sidebar.nav.settings'](),
 			icon: Settings,
-			navigateTo: '/app/settings/general'
+			navigateTo: '/settings/general'
 		}
 	];
 
 	// mobile links
 	const mobileLinks = [
-		{ href: '/app', label: m['app.sidebar.nav.home'](), icon: House },
-		{ href: '/app/entries', label: m['app.sidebar.nav.entries'](), icon: BookOpen },
-		{ href: '/app/search', label: m['app.sidebar.nav.search'](), icon: Search },
+		{ href: '/', label: m['app.sidebar.nav.home'](), icon: House },
+		{ href: '/entries', label: m['app.sidebar.nav.entries'](), icon: BookOpen },
+		{ href: '/search', label: m['app.sidebar.nav.search'](), icon: Search },
 		{
-			href: '/app/settings',
+			href: '/settings',
 			label: m['app.sidebar.nav.settings'](),
 			icon: Settings,
-			navigateTo: '/app/settings'
+			navigateTo: '/settings'
 		}
 	];
 
 	function isActive(href: string) {
-		if (href === '/app') return page.url.pathname === '/app';
+		if (href === '/') return page.url.pathname === '/';
 		return page.url.pathname.startsWith(href);
 	}
 </script>
@@ -79,7 +79,7 @@
 
 		<!-- new entry -->
 		<div class="mt-auto pt-4 pb-2">
-			<Button class="w-full gap-2 py-6 lowercase shadow-sm" href="/app/new">
+			<Button class="w-full gap-2 py-6 lowercase shadow-sm" href="/new">
 				<CirclePlus class="h-5 w-5" />
 				<span class="text-xl font-semibold tracking-wider">{m['app.sidebar.newEntry']()}</span>
 			</Button>
@@ -110,7 +110,7 @@
 
 	<!-- boton del medio, nueva entrada -->
 	<a
-		href="/app/new"
+		href="/new"
 		class="-mt-2 flex h-12 w-12 items-center justify-center rounded-full bg-foreground/85 text-background shadow-md"
 		aria-label="new entry"
 	>
