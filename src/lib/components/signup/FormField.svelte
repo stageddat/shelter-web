@@ -7,12 +7,12 @@
 	interface FormFieldProps {
 		field: FormFieldConfig;
 		value: string;
-		onChange: (e: Event & { currentTarget: HTMLInputElement }) => void;
+		onInput?: () => void;
 		error?: string;
 		disabled?: boolean;
 	}
 
-	let { field, value, onChange, error, disabled = false }: FormFieldProps = $props();
+	let { field, value = $bindable(''), onInput, error, disabled = false }: FormFieldProps = $props();
 
 	const Icon = $derived(field.icon);
 	let passwordVisible = $state(false);
@@ -35,8 +35,8 @@
 			autocomplete={field.autocomplete}
 			id={field.id}
 			name={field.name}
-			value={value ?? ''}
-			oninput={onChange}
+			bind:value
+			oninput={onInput}
 			placeholder={field.placeholder}
 			aria-invalid={error ? true : undefined}
 			aria-describedby={messageId}

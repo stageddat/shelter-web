@@ -1,18 +1,19 @@
 import { z } from 'zod';
+import { m } from '$lib/paraglide/messages';
 
 export const registerSchema = z
 	.object({
 		username: z
 			.string()
-			.min(3, 'username must be at least 3 characters long')
-			.max(20, 'username must be at most 20 characters long')
-			.regex(/^[a-zA-Z0-9_]+$/, 'username can only contain letters, numbers, and underscores')
-			.trim(),
-		password: z.string().min(8, 'password must be at least 8 characters long'),
-		password2: z.string().min(8, 'password must be at least 8 characters long')
+			.trim()
+			.min(3, { error: () => m['signup.error.usernameMin']() })
+			.max(20, { error: () => m['signup.error.usernameMax']() })
+			.regex(/^[a-zA-Z0-9_]+$/, { error: () => m['signup.error.usernameChars']() }),
+		password: z.string().min(8, { error: () => m['signup.error.passwordMin']() }),
+		password2: z.string().min(8, { error: () => m['signup.error.passwordMin']() })
 	})
 	.refine((data) => data.password === data.password2, {
-		message: "passwords don't match",
+		error: () => m['signup.error.passwordMismatch'](),
 		path: ['password2']
 	});
 

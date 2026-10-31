@@ -4,11 +4,12 @@ import { goto } from '$app/navigation';
 import { type RegisterInput, registerSchema } from '$lib/schemas/register.schema';
 import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 import { resolve } from '$app/paths';
+import { m } from '$lib/paraglide/messages';
 
 export function useSignup() {
 	const auth = getAuthContext();
 
-	let formData = $state<RegisterInput>({
+	const formData = $state<RegisterInput>({
 		username: '',
 		password: '',
 		password2: ''
@@ -20,14 +21,10 @@ export function useSignup() {
 	let isLoading = $state(false);
 	let isChecking = $state(true);
 
-	const handleChange = (e: Event & { currentTarget: HTMLInputElement }) => {
-		const target = e.currentTarget;
-		formData = {
-			...formData,
-			[target.name]: target.value
-		};
+	// formData se rellena con bind:value; al escribir se quitan los errores de ese campo
+	const clearError = (field: keyof RegisterInput) => {
 		error = '';
-		fieldErrors = { ...fieldErrors, [target.name]: undefined };
+		fieldErrors[field] = undefined;
 	};
 
 	const handleSubmit = async (e: SubmitEvent) => {
@@ -63,7 +60,7 @@ export function useSignup() {
 			goto(resolve('/'));
 		} catch (err) {
 			console.error('registration error:', err);
-			error = err instanceof Error ? err.message : 'registration failed';
+			error = m['signup.error.unexpected']();
 		} finally {
 			isLoading = false;
 		}
@@ -104,7 +101,7 @@ export function useSignup() {
 		get isChecking() {
 			return isChecking;
 		},
-		handleChange,
+		clearError,
 		handleSubmit
 	};
 }

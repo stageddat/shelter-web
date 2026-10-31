@@ -54,6 +54,10 @@
     "button": {
       "default": "enter my shelter",
       "loading": "entering"
+    },
+    "error": {
+      "incorrectPassword": "wrong password :( try again!",
+      "unexpected": "something exploded :( please try again."
     }
   },
   "signup": {
@@ -80,7 +84,15 @@
       "loading": "building your shelter..."
     },
     "alreadyHaveDiary": "already have a shelter?",
-    "restoreDiary": "restore"
+    "restoreDiary": "restore",
+    "error": {
+      "unexpected": "something went wrong building your shelter :( please try again.",
+      "usernameMin": "your username needs at least 3 characters",
+      "usernameMax": "your username can have 20 characters at most",
+      "usernameChars": "only letters, numbers and underscores, please!",
+      "passwordMin": "your password needs at least 8 characters",
+      "passwordMismatch": "the passwords don't match"
+    }
   },
   "app": {
     "sidebar": {
