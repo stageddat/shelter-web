@@ -59,7 +59,7 @@ export function useSignup() {
 
 			goto(resolve('/'));
 		} catch (err) {
-			console.error('registration error:', err);
+			console.error('registration error: ', err);
 			error = m['signup.error.unexpected']();
 		} finally {
 			isLoading = false;
@@ -71,13 +71,13 @@ export function useSignup() {
 			try {
 				const exists = await hasExistingUser();
 
+				// si existe, enviar a login
 				if (exists) {
-					console.log('User already exists, redirecting to login...');
 					goto(resolve('/login'));
 					return;
 				}
 			} catch (err) {
-				console.error('error checking user:', err);
+				console.error('error checking user: ', err);
 			}
 			isChecking = false;
 		}

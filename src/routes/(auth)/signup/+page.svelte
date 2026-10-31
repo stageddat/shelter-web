@@ -3,6 +3,7 @@
 	import { formFields } from '$lib/constants/signup/formFields';
 	import FormField from '$lib/components/signup/FormField.svelte';
 	import AuthCard from '$lib/components/shared/AuthCard.svelte';
+	import LoadingText from '$lib/components/shared/LoadingText.svelte';
 	import { Button } from 'shelter-assets';
 	import { resolve } from '$app/paths';
 	import { m } from '$lib/paraglide/messages';
@@ -43,8 +44,18 @@
 			{/if}
 
 			<!-- btn -->
-			<Button type="submit" class="w-full" loading={signup.isLoading}>
-				{signup.isLoading ? m['signup.button.loading']() : m['signup.button.default']()}
+			<!-- sin el spinner de Button: aquí van los tres puntos animados de LoadingText -->
+			<Button
+				type="submit"
+				class="w-full"
+				disabled={signup.isLoading}
+				aria-busy={signup.isLoading || undefined}
+			>
+				{#if signup.isLoading}
+					<LoadingText text={m['signup.button.loading']()} />
+				{:else}
+					{m['signup.button.default']()}
+				{/if}
 			</Button>
 		</form>
 

@@ -4,6 +4,7 @@
 	import Lock from '@lucide/svelte/icons/lock';
 	import PasswordVisibilityButton from '$lib/components/shared/PasswordVisibilityButton.svelte';
 	import AuthCard from '$lib/components/shared/AuthCard.svelte';
+	import LoadingText from '$lib/components/shared/LoadingText.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { useLogin } from '$lib/hooks/login/useLogin.svelte';
 
@@ -54,8 +55,18 @@
 				{/if}
 			</div>
 
-			<Button type="submit" class="w-full" loading={login.isLoading}>
-				{login.isLoading ? m['login.button.loading']() : m['login.button.default']()}
+			<!-- sin el spinner de Button: aquí van los tres puntos animados de LoadingText -->
+			<Button
+				type="submit"
+				class="w-full"
+				disabled={login.isLoading}
+				aria-busy={login.isLoading || undefined}
+			>
+				{#if login.isLoading}
+					<LoadingText text={m['login.button.loading']()} />
+				{:else}
+					{m['login.button.default']()}
+				{/if}
 			</Button>
 		</form>
 	</AuthCard>
