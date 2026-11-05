@@ -1,22 +1,29 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { Button } from '$lib/components/ui/button';
 	import { m } from '$lib/paraglide/messages';
 	import { cn } from '$lib/utils';
 	import {
-		CirclePlus,
-		House,
 		BookOpen,
 		// Calendar,
 		// ChartNoAxesColumn,
+		House,
+		Plus,
 		Search,
 		Settings
 	} from '@lucide/svelte';
+	import { Button } from 'shelter-assets';
+
+	type NavLink = {
+		href: string;
+		label: string;
+		icon: typeof House;
+		desktopHref?: string;
+	};
 
 	// para esconder el navbar en configuración
 	let inSettings = $derived(page.url.pathname.startsWith('/settings/'));
 
-	const links = [
+	const links: NavLink[] = [
 		{ href: '/', label: m['app.sidebar.nav.home'](), icon: House },
 		{ href: '/entries', label: m['app.sidebar.nav.entries'](), icon: BookOpen },
 		// { href: '/calendar', label: 'calendar', icon: Calendar },
@@ -26,20 +33,7 @@
 			href: '/settings',
 			label: m['app.sidebar.nav.settings'](),
 			icon: Settings,
-			navigateTo: '/settings/general'
-		}
-	];
-
-	// mobile links
-	const mobileLinks = [
-		{ href: '/', label: m['app.sidebar.nav.home'](), icon: House },
-		{ href: '/entries', label: m['app.sidebar.nav.entries'](), icon: BookOpen },
-		{ href: '/search', label: m['app.sidebar.nav.search'](), icon: Search },
-		{
-			href: '/settings',
-			label: m['app.sidebar.nav.settings'](),
-			icon: Settings,
-			navigateTo: '/settings'
+			desktopHref: '/settings/general'
 		}
 	];
 
@@ -50,42 +44,52 @@
 </script>
 
 <!-- pc sidebar -->
-<aside class="hidden h-screen w-72 flex-col border-r bg-card/50 backdrop-blur-md lg:flex">
-	<div class="flex h-full flex-col overflow-hidden px-8">
-		<!-- logo -->
-		<div class="py-8">
-			<h1 class="text-4xl font-semibold tracking-wide lowercase">shelter</h1>
-			<p class="text-lg tracking-widest text-muted-foreground">{m['app.sidebar.tagline']()}</p>
-		</div>
+<aside
+	class="hidden h-screen w-72 flex-col gap-6 overflow-hidden border-r bg-sidebar p-4 text-sidebar-foreground lg:flex"
+>
+	<!-- logo -->
+	<a href="/" class="block px-2.5">
+		<span class="block text-h1">shelter</span>
+		<span class="block text-muted-foreground">{m['app.sidebar.tagline']()}</span>
+	</a>
 
-		<!-- links -->
-		<nav class="flex flex-col gap-1">
-			{#each links as { href, label, icon: Icon, navigateTo } (href)}
-				<Button
-					variant="ghost"
-					class={cn(
-						'w-full justify-start gap-3 py-6 pl-4 text-lg tracking-wider',
-						'text-foreground/60 hover:bg-transparent! hover:text-foreground/95',
-						isActive(href) &&
-							'rounded-full bg-secondary/30 text-foreground hover:bg-secondary/30! hover:text-foreground'
-					)}
-					href={navigateTo ?? href}
-				>
-					<Icon class="h-7! w-7!" />
-					<span>{label}</span>
-				</Button>
-			{/each}
-		</nav>
-
-		<!-- new entry -->
-		<div class="mt-auto pt-4 pb-2">
-			<Button class="w-full gap-2 py-6 lowercase shadow-sm" href="/new">
-				<CirclePlus class="h-5 w-5" />
-				<span class="text-xl font-semibold tracking-wider">{m['app.sidebar.newEntry']()}</span>
+	<!-- links -->
+	<nav class="flex flex-col">
+		{#each links as { href, label, icon: Icon, desktopHref } (href)}
+			{@const active = isActive(href)}
+			<Button
+				variant="ghost"
+				class={cn(
+					'w-full justify-start p-0 text-lg font-light tracking-wide',
+					active && 'font-semibold'
+				)}
+				href={desktopHref ?? href}
+				aria-current={active ? 'page' : undefined}
+			>
+				<Icon data-icon="inline-start" class={cn(active && 'stroke-[2.5]')} />
+				{label}
 			</Button>
-		</div>
-	</div>
+		{/each}
+	</nav>
+
+	<!-- new entry -->
+	<Button class="mt-auto w-full lowercase" href="/new">{m['app.sidebar.newEntry']()}</Button>
 </aside>
+
+{#snippet mobileLink({ href, label, icon: Icon }: NavLink)}
+	{@const active = isActive(href)}
+	<a
+		{href}
+		class={cn(
+			'flex flex-col items-center gap-1 rounded-xl px-3 py-2 text-muted-foreground transition-colors',
+			active && 'text-foreground'
+		)}
+		aria-current={active ? 'page' : undefined}
+	>
+		<Icon class={cn('size-5', active && 'stroke-[2.5]')} />
+		<span class="text-xs lowercase">{label}</span>
+	</a>
+{/snippet}
 
 <!-- mobile bottom nav -->
 <nav
@@ -94,40 +98,21 @@
 		inSettings && 'hidden'
 	)}
 >
-	{#each mobileLinks.slice(0, 2) as { href, label, icon: Icon, navigateTo } (href)}
-		<a
-			href={navigateTo ?? href}
-			class={cn(
-				'flex flex-col items-center gap-1 rounded-xl px-3 py-2 transition-colors',
-				'text-foreground/50',
-				isActive(href) && 'text-foreground'
-			)}
-		>
-			<Icon class={cn('h-6 w-6', isActive(href) && 'stroke-[2.5]')} />
-			<span class="text-[10px] tracking-wider lowercase">{label}</span>
-		</a>
+	{#each links.slice(0, 2) as link (link.href)}
+		{@render mobileLink(link)}
 	{/each}
 
 	<!-- boton del medio, nueva entrada -->
-	<a
+	<Button
+		size="icon-lg"
+		class="-mt-2 rounded-full shadow-md"
 		href="/new"
-		class="-mt-2 flex h-12 w-12 items-center justify-center rounded-full bg-foreground/85 text-background shadow-md"
-		aria-label="new entry"
+		aria-label={m['app.sidebar.newEntry']()}
 	>
-		<CirclePlus class="h-6! w-6!" />
-	</a>
+		<Plus class="size-5" />
+	</Button>
 
-	{#each mobileLinks.slice(2) as { href, label, icon: Icon, navigateTo } (href)}
-		<a
-			href={navigateTo ?? href}
-			class={cn(
-				'flex flex-col items-center gap-1 rounded-xl px-3 py-2 transition-colors',
-				'text-foreground/50',
-				isActive(href) && 'text-foreground'
-			)}
-		>
-			<Icon class={cn('h-6 w-6', isActive(href) && 'stroke-[2.5]')} />
-			<span class="text-[10px] tracking-wider lowercase">{label}</span>
-		</a>
+	{#each links.slice(2) as link (link.href)}
+		{@render mobileLink(link)}
 	{/each}
 </nav>
