@@ -59,10 +59,8 @@
 </svelte:head>
 
 <main class="flex flex-col gap-4 px-4 py-6 lg:h-screen lg:overflow-hidden lg:px-10 lg:py-8">
-	<div class="mb-4 flex shrink-0 items-center justify-between">
-		<h2
-			class="flex items-center justify-center text-left text-4xl font-bold tracking-wide text-pretty lowercase lg:text-5xl"
-		>
+	<div class="mb-4 flex items-center justify-between">
+		<h2 class="font-semibold text-pretty">
 			{greetingMessage}
 		</h2>
 
@@ -72,12 +70,12 @@
 					<Info class="h-5! w-5! lg:h-7! lg:w-7!" />
 				</Button>
 			</PopoverTrigger>
-			<PopoverContent align="end" class="w-[90vw] lg:w-2xl">
+			<PopoverContent align="end">
 				<PopoverHeader>
-					<PopoverTitle class="text-xl font-semibold tracking-wide lg:text-3xl">
+					<PopoverTitle class="text-xl font-semibold text-pretty">
 						{m['app.home.devNotice.title']()}
 					</PopoverTitle>
-					<PopoverDescription class="space-y-3 text-base lg:text-xl">
+					<PopoverDescription class="text-base text-balance">
 						<span>{m['app.home.devNotice.body']()}</span>
 						<span class="block">{m['app.home.devNotice.export']()}</span>
 					</PopoverDescription>
