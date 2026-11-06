@@ -103,96 +103,92 @@
 
 <input bind:this={fileInput} type="file" accept=".shelter" class="hidden" onchange={handleImport} />
 
-<div class="flex flex-col gap-2 px-5 py-6 lg:px-12 lg:py-9">
-	<!-- header -->
-	<SettingsPageHeader
-		title={m['app.settings.data.title']()}
-		description={m['app.settings.data.description']()}
-	/>
-	<!-- import & export -->
-	<div class="mb-4">
-		<p class="tracking-widets mb-1 text-xl uppercase lg:text-2xl">
-			{m['app.settings.data.importExport.title']()}
-		</p>
-		<p class="mb-4 text-base lowercase opacity-85 lg:text-xl">
-			{m['app.settings.data.importExport.subtitle']()}
-		</p>
-		<div class="flex w-full flex-col gap-4 lg:flex-row">
-			<div
-				class="flex w-full flex-col rounded-xl border border-current p-5 lg:w-1/2"
-				style="border-opacity: 0.1;"
-			>
-				<p class="mb-1 text-xl font-semibold tracking-wide lowercase lg:text-2xl">
-					{m['app.settings.data.importExport.exportTitle']()}
-				</p>
-				<p class="mb-6 text-base leading-relaxed lowercase opacity-60 lg:text-xl">
-					{m['app.settings.data.importExport.exportDescription']()}
-				</p>
-				<Button
-					class="mt-auto h-12 w-full cursor-pointer text-lg lg:text-xl"
-					onclick={handleExport}
-					disabled={exporting}
-				>
-					<FileDown class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
-					{exporting
-						? m['app.settings.data.importExport.exportingButton']()
-						: m['app.settings.data.importExport.exportButton']()}
-				</Button>
-			</div>
-			<div
-				class="flex w-full flex-col rounded-xl border border-current p-5 lg:w-1/2"
-				style="border-opacity: 0.1;"
-			>
-				<p class="mb-1 text-xl font-semibold tracking-wide lowercase lg:text-2xl">
-					{m['app.settings.data.importExport.importTitle']()}
-				</p>
-				<p class="mb-6 text-base leading-relaxed lowercase opacity-60 lg:text-xl">
-					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-					{@html m['app.settings.data.importExport.importDescription']()}
-				</p>
-				<Button
-					class="mt-auto h-12 w-full cursor-pointer text-lg lg:text-xl"
-					onclick={handleImportClick}
-					disabled={importing}
-				>
-					<FileUp class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
-					{importing
-						? m['app.settings.data.importExport.importingButton']()
-						: m['app.settings.data.importExport.importButton']()}
-				</Button>
-			</div>
-		</div>
-	</div>
-
-	<hr class="border-current opacity-25" />
-
-	<!-- purge -->
-	<div class="my-4">
-		<p class="tracking-widets mb-1 text-xl uppercase lg:text-2xl">
-			{m['app.settings.data.dangerZone.title']()}
-		</p>
-		<p class="mb-4 text-base lowercase opacity-85 lg:text-xl">
-			{m['app.settings.data.dangerZone.subtitle']()}
-		</p>
+<!-- header -->
+<SettingsPageHeader
+	title={m['app.settings.data.title']()}
+	description={m['app.settings.data.description']()}
+/>
+<!-- import & export -->
+<div class="mb-4">
+	<p class="tracking-widets mb-1 text-xl uppercase lg:text-2xl">
+		{m['app.settings.data.importExport.title']()}
+	</p>
+	<p class="mb-4 text-base lowercase opacity-85 lg:text-xl">
+		{m['app.settings.data.importExport.subtitle']()}
+	</p>
+	<div class="flex w-full flex-col gap-4 lg:flex-row">
 		<div
-			class="flex flex-col gap-4 rounded-xl border border-destructive/20 p-5 lg:flex-row lg:items-center lg:justify-between"
+			class="flex w-full flex-col rounded-xl border border-current p-5 lg:w-1/2"
+			style="border-opacity: 0.1;"
 		>
-			<p
-				class="text-base leading-relaxed text-destructive lowercase opacity-90 lg:w-9/12 lg:text-xl"
-			>
-				{m['app.settings.data.dangerZone.description']()}
+			<p class="mb-1 text-xl font-semibold tracking-wide lowercase lg:text-2xl">
+				{m['app.settings.data.importExport.exportTitle']()}
+			</p>
+			<p class="mb-6 text-base leading-relaxed lowercase opacity-60 lg:text-xl">
+				{m['app.settings.data.importExport.exportDescription']()}
 			</p>
 			<Button
-				class="h-12 w-full cursor-pointer text-lg lg:w-3/12 lg:text-xl"
-				onclick={handlePurge}
-				disabled={purging}
-				variant="destructive"
+				class="mt-auto h-12 w-full cursor-pointer text-lg lg:text-xl"
+				onclick={handleExport}
+				disabled={exporting}
 			>
-				<Trash2 class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
-				{purging
-					? m['app.settings.data.dangerZone.purgingButton']()
-					: m['app.settings.data.dangerZone.purgeButton']()}
+				<FileDown class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
+				{exporting
+					? m['app.settings.data.importExport.exportingButton']()
+					: m['app.settings.data.importExport.exportButton']()}
 			</Button>
 		</div>
+		<div
+			class="flex w-full flex-col rounded-xl border border-current p-5 lg:w-1/2"
+			style="border-opacity: 0.1;"
+		>
+			<p class="mb-1 text-xl font-semibold tracking-wide lowercase lg:text-2xl">
+				{m['app.settings.data.importExport.importTitle']()}
+			</p>
+			<p class="mb-6 text-base leading-relaxed lowercase opacity-60 lg:text-xl">
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html m['app.settings.data.importExport.importDescription']()}
+			</p>
+			<Button
+				class="mt-auto h-12 w-full cursor-pointer text-lg lg:text-xl"
+				onclick={handleImportClick}
+				disabled={importing}
+			>
+				<FileUp class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
+				{importing
+					? m['app.settings.data.importExport.importingButton']()
+					: m['app.settings.data.importExport.importButton']()}
+			</Button>
+		</div>
+	</div>
+</div>
+
+<hr class="border-current opacity-25" />
+
+<!-- purge -->
+<div class="my-4">
+	<p class="tracking-widets mb-1 text-xl uppercase lg:text-2xl">
+		{m['app.settings.data.dangerZone.title']()}
+	</p>
+	<p class="mb-4 text-base lowercase opacity-85 lg:text-xl">
+		{m['app.settings.data.dangerZone.subtitle']()}
+	</p>
+	<div
+		class="flex flex-col gap-4 rounded-xl border border-destructive/20 p-5 lg:flex-row lg:items-center lg:justify-between"
+	>
+		<p class="text-base leading-relaxed text-destructive lowercase opacity-90 lg:w-9/12 lg:text-xl">
+			{m['app.settings.data.dangerZone.description']()}
+		</p>
+		<Button
+			class="h-12 w-full cursor-pointer text-lg lg:w-3/12 lg:text-xl"
+			onclick={handlePurge}
+			disabled={purging}
+			variant="destructive"
+		>
+			<Trash2 class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
+			{purging
+				? m['app.settings.data.dangerZone.purgingButton']()
+				: m['app.settings.data.dangerZone.purgeButton']()}
+		</Button>
 	</div>
 </div>

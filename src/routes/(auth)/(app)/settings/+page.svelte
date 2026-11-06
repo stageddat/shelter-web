@@ -70,7 +70,7 @@ so have a nice day and bye bye!
 		en pc redirige a settings/general,
     esta página es solo para móvil -->
 
-<div class="flex flex-col px-4 py-6 lg:hidden">
+<div class="flex flex-col lg:hidden">
 	<h2 class="mb-6 text-3xl font-bold tracking-wide lowercase">{m['app.settings.title']()}</h2>
 	<div class="flex flex-col gap-1">
 		{#each settingsCategories as category (category.id)}

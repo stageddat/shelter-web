@@ -71,146 +71,144 @@
 	<title>{m['metadata.settings_general.title']()}</title>
 </svelte:head>
 
-<div class="flex flex-col gap-2 px-5 py-6 lg:px-12 lg:py-9">
-	<!-- header -->
-	<SettingsPageHeader
-		title={m['app.settings.general.title']()}
-		description={m['app.settings.general.description']()}
-	/>
-	<!-- appereance -->
-	<div class="mb-6">
-		<h2 class="mb-2 text-xl tracking-widest uppercase lg:text-2xl">
-			{m['app.settings.general.appearance.title']()}
-		</h2>
-		<div class="flex flex-row items-center justify-between gap-2">
+<!-- header -->
+<SettingsPageHeader
+	title={m['app.settings.general.title']()}
+	description={m['app.settings.general.description']()}
+/>
+<!-- appereance -->
+<div class="mb-6">
+	<h2 class="mb-2 text-xl tracking-widest uppercase lg:text-2xl">
+		{m['app.settings.general.appearance.title']()}
+	</h2>
+	<div class="flex flex-row items-center justify-between gap-2">
+		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
+			{m['app.settings.general.appearance.theme']()}
+		</p>
+		<ThemeSelector
+			label={m['app.settings.general.appearance.theme']()}
+			labels={{
+				system: m['app.settings.general.appearance.themes.system'](),
+				light: m['app.settings.general.appearance.themes.light'](),
+				dark: m['app.settings.general.appearance.themes.dark'](),
+				'mocha-lavender': m['app.settings.general.appearance.themes.mochaLavender']()
+			}}
+		/>
+	</div>
+	<hr class="my-4 border-current opacity-10" />
+	<div class="flex flex-row items-center justify-between gap-2">
+		<div>
 			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.general.appearance.theme']()}
+				{m['app.settings.general.appearance.language']()}
 			</p>
-			<ThemeSelector
-				label={m['app.settings.general.appearance.theme']()}
-				labels={{
-					system: m['app.settings.general.appearance.themes.system'](),
-					light: m['app.settings.general.appearance.themes.light'](),
-					dark: m['app.settings.general.appearance.themes.dark'](),
-					'mocha-lavender': m['app.settings.general.appearance.themes.mochaLavender']()
-				}}
+			<p class="text-sm tracking-wide lowercase opacity-60 lg:text-base">
+				{m['app.settings.general.appearance.languageWarning']()}
+			</p>
+		</div>
+		<LanguageSelector
+			current={getLocale()}
+			{languages}
+			// usar onselect en lugar de href para guardar en localStorage
+			onselect={(locale) => isLocale(locale) && setLocale(locale)}
+			labels={{
+				language: m['app.settings.general.appearance.language'](),
+				official: m['app.settings.general.appearance.languageGroups.official'](),
+				community: m['app.settings.general.appearance.languageGroups.community']()
+			}}
+		/>
+	</div>
+</div>
+
+<!-- user -->
+<div class="mb-6">
+	<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
+		{m['app.settings.general.user.title']()}
+	</h2>
+	<div class="flex flex-row items-center justify-between gap-2">
+		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
+			{m['app.settings.general.user.displayName']()}
+		</p>
+		<InputGroup class="w-40 lg:w-sm">
+			<InputGroupInput
+				class="text-base! lg:text-xl!"
+				placeholder={m['app.settings.general.user.displayNamePlaceholder']()}
+				bind:value={displayName}
+				maxlength={20}
 			/>
-		</div>
-		<hr class="my-4 border-current opacity-10" />
-		<div class="flex flex-row items-center justify-between gap-2">
-			<div>
-				<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-					{m['app.settings.general.appearance.language']()}
-				</p>
-				<p class="text-sm tracking-wide lowercase opacity-60 lg:text-base">
-					{m['app.settings.general.appearance.languageWarning']()}
-				</p>
-			</div>
-			<LanguageSelector
-				current={getLocale()}
-				{languages}
-				// usar onselect en lugar de href para guardar en localStorage
-				onselect={(locale) => isLocale(locale) && setLocale(locale)}
-				labels={{
-					language: m['app.settings.general.appearance.language'](),
-					official: m['app.settings.general.appearance.languageGroups.official'](),
-					community: m['app.settings.general.appearance.languageGroups.community']()
-				}}
-			/>
-		</div>
+			<InputGroupAddon align="inline-end" class="margin-0 gap-0">
+				{#if displayName !== auth.user?.displayName}
+					<InputGroupButton
+						variant="ghost"
+						onclick={() => (displayName = auth.user?.displayName ?? '')}
+						class="p-1! text-red-500 hover:bg-red-500/10 hover:text-red-500 dark:text-red-400 dark:hover:bg-red-400/10"
+					>
+						<X class="size-5 p-0!" />
+					</InputGroupButton>
+					<InputGroupButton
+						variant="ghost"
+						onclick={handleSaveDisplayName}
+						class="p-1! text-green-600 hover:bg-green-500/10 hover:text-green-600 dark:text-green-400 dark:hover:bg-green-400/10"
+					>
+						<Check class="size-5 p-0!" />
+					</InputGroupButton>
+				{/if}
+			</InputGroupAddon>
+		</InputGroup>
 	</div>
-
-	<!-- user -->
-	<div class="mb-6">
-		<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
-			{m['app.settings.general.user.title']()}
-		</h2>
-		<div class="flex flex-row items-center justify-between gap-2">
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.general.user.displayName']()}
-			</p>
-			<InputGroup class="w-40 lg:w-sm">
-				<InputGroupInput
-					class="text-base! lg:text-xl!"
-					placeholder={m['app.settings.general.user.displayNamePlaceholder']()}
-					bind:value={displayName}
-					maxlength={20}
-				/>
-				<InputGroupAddon align="inline-end" class="margin-0 gap-0">
-					{#if displayName !== auth.user?.displayName}
-						<InputGroupButton
-							variant="ghost"
-							onclick={() => (displayName = auth.user?.displayName ?? '')}
-							class="p-1! text-red-500 hover:bg-red-500/10 hover:text-red-500 dark:text-red-400 dark:hover:bg-red-400/10"
-						>
-							<X class="size-5 p-0!" />
-						</InputGroupButton>
-						<InputGroupButton
-							variant="ghost"
-							onclick={handleSaveDisplayName}
-							class="p-1! text-green-600 hover:bg-green-500/10 hover:text-green-600 dark:text-green-400 dark:hover:bg-green-400/10"
-						>
-							<Check class="size-5 p-0!" />
-						</InputGroupButton>
-					{/if}
-				</InputGroupAddon>
-			</InputGroup>
-		</div>
-		<hr class="my-4 border-current opacity-10" />
-		<div class="flex flex-row items-center justify-between gap-2">
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.general.user.username']()}
-			</p>
-			<button
-				onclick={() => handleCopy('username')}
-				class="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-muted/60 px-3 py-1 transition-opacity hover:opacity-90"
+	<hr class="my-4 border-current opacity-10" />
+	<div class="flex flex-row items-center justify-between gap-2">
+		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
+			{m['app.settings.general.user.username']()}
+		</p>
+		<button
+			onclick={() => handleCopy('username')}
+			class="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-muted/60 px-3 py-1 transition-opacity hover:opacity-90"
+		>
+			<span class="max-w-32 truncate font-mono text-sm opacity-85 lg:max-w-none lg:text-base"
+				>{auth.user?.username}</span
 			>
-				<span class="max-w-32 truncate font-mono text-sm opacity-85 lg:max-w-none lg:text-base"
-					>{auth.user?.username}</span
-				>
-				{#if copied === 'username'}<Check class="size-3.5 shrink-0" />{:else}<Copy
-						class="size-3.5 shrink-0"
-					/>{/if}
-			</button>
-		</div>
-		<hr class="my-4 border-current opacity-10" />
-		<div class="flex flex-row items-center justify-between gap-2">
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.general.user.userId']()}
-			</p>
-			<button
-				onclick={() => handleCopy('id')}
-				class="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-muted/60 px-3 py-1 transition-opacity hover:opacity-90"
+			{#if copied === 'username'}<Check class="size-3.5 shrink-0" />{:else}<Copy
+					class="size-3.5 shrink-0"
+				/>{/if}
+		</button>
+	</div>
+	<hr class="my-4 border-current opacity-10" />
+	<div class="flex flex-row items-center justify-between gap-2">
+		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
+			{m['app.settings.general.user.userId']()}
+		</p>
+		<button
+			onclick={() => handleCopy('id')}
+			class="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-muted/60 px-3 py-1 transition-opacity hover:opacity-90"
+		>
+			<span class="max-w-32 truncate font-mono text-sm opacity-85 lg:max-w-none lg:text-base"
+				>{auth.user?.id}</span
 			>
-				<span class="max-w-32 truncate font-mono text-sm opacity-85 lg:max-w-none lg:text-base"
-					>{auth.user?.id}</span
-				>
-				{#if copied === 'id'}<Check class="size-3.5 shrink-0" />{:else}<Copy
-						class="size-3.5 shrink-0"
-					/>{/if}
-			</button>
+			{#if copied === 'id'}<Check class="size-3.5 shrink-0" />{:else}<Copy
+					class="size-3.5 shrink-0"
+				/>{/if}
+		</button>
+	</div>
+</div>
+
+<!-- privacy -->
+<div class="mb-6">
+	<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
+		{m['app.settings.general.privacy.title']()}
+	</h2>
+	<div class="flex flex-row items-center justify-between gap-2">
+		<div>
+			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
+				{m['app.settings.general.privacy.analytics']()}
+			</p>
+			<p class="text-sm tracking-wide lowercase opacity-60 lg:text-base">
+				{m['app.settings.general.privacy.analyticsDescription']()}
+			</p>
+		</div>
+		<div class="flex items-center space-x-2">
+			<Switch id="analytics" checked={analyticsEnabled} onCheckedChange={toggleAnalytics} />
 		</div>
 	</div>
 
-	<!-- privacy -->
-	<div class="mb-6">
-		<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
-			{m['app.settings.general.privacy.title']()}
-		</h2>
-		<div class="flex flex-row items-center justify-between gap-2">
-			<div>
-				<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-					{m['app.settings.general.privacy.analytics']()}
-				</p>
-				<p class="text-sm tracking-wide lowercase opacity-60 lg:text-base">
-					{m['app.settings.general.privacy.analyticsDescription']()}
-				</p>
-			</div>
-			<div class="flex items-center space-x-2">
-				<Switch id="analytics" checked={analyticsEnabled} onCheckedChange={toggleAnalytics} />
-			</div>
-		</div>
-
-		<!-- <hr class="my-4 border-current opacity-10" /> -->
-	</div>
+	<!-- <hr class="my-4 border-current opacity-10" /> -->
 </div>

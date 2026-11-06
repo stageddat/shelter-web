@@ -22,8 +22,8 @@
 
 <!-- pc, oslo titulo -->
 <div class="mb-6">
-	<h2 class="mb-0.5 text-3xl font-semibold tracking-wide lowercase lg:text-4xl">{title}</h2>
+	<h2 class="mb-1 font-semibold tracking-wide lowercase">{title}</h2>
 	{#if description}
-		<h3 class="text-base tracking-wide lowercase opacity-60 lg:text-xl">{description}</h3>
+		<h3 class="text-muted-foreground">{description}</h3>
 	{/if}
 </div>

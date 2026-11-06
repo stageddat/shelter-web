@@ -1,34 +1,20 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
 	import settingsCategories from '$lib/types/app/settingsCategories';
 	import { m } from '$lib/paraglide/messages';
+	import { cn } from '$lib/utils';
+	import { Button } from 'shelter-assets';
 
 	let { children } = $props();
 
 	let activeId = $derived(page.url.pathname.split('/').pop());
 
-	const categoryLabels = $derived({
-		general: {
-			title: m['app.settings.general.title'](),
-			description: m['app.settings.general.description']()
-		},
-		security: {
-			title: m['app.settings.security.title'](),
-			description: m['app.settings.security.description']()
-		},
-		editor: {
-			title: m['app.settings.editor.title'](),
-			description: m['app.settings.editor.description']()
-		},
-		data: {
-			title: m['app.settings.data.title'](),
-			description: m['app.settings.data.description']()
-		},
-		about: {
-			title: m['app.settings.about.title'](),
-			description: m['app.settings.about.description']()
-		}
+	const categoryTitles = $derived({
+		general: m['app.settings.general.title'](),
+		security: m['app.settings.security.title'](),
+		editor: m['app.settings.editor.title'](),
+		data: m['app.settings.data.title'](),
+		about: m['app.settings.about.title']()
 	});
 </script>
 
@@ -37,42 +23,33 @@
 </svelte:head>
 
 <div class="flex h-screen overflow-hidden">
-	<aside
-		class="hidden h-full w-72 flex-col overflow-hidden border-r bg-card/50 backdrop-blur-xs lg:flex"
-	>
-		<h2 class="mb-4 pt-8 pl-5 text-left text-4xl font-bold tracking-wide lowercase">
-			{m['app.settings.title']()}
-		</h2>
-		<nav class="m-2 flex flex-col gap-2">
+	<aside class="hidden h-full w-72 flex-col gap-6 overflow-hidden border-r bg-sidebar p-4 lg:flex">
+		<h1 class="px-2.5">{m['app.settings.title']()}</h1>
+
+		<!-- mismo estilo de links que el sidebar principal -->
+		<nav class="flex flex-col">
 			{#each settingsCategories as category (category.id)}
-				{@const isActive = activeId === category.id}
-				<button
-					onclick={() => goto(`/settings/${category.id}`)}
-					class="relative flex items-center gap-4 rounded-2xl px-4 py-3 text-left transition-all duration-200
-						{isActive
-						? 'bg-primary/10 text-primary'
-						: 'text-muted-foreground hover:bg-muted hover:text-foreground'}"
+				{@const active = activeId === category.id}
+				<Button
+					variant="ghost"
+					class={cn(
+						'w-full justify-start p-0 text-lg font-light tracking-wide',
+						active && 'font-semibold'
+					)}
+					href={`/settings/${category.id}`}
+					aria-current={active ? 'page' : undefined}
 				>
-					{#if isActive}
-						<div class="absolute top-1/4 left-2 h-1/2 w-1 rounded-full bg-primary"></div>
-					{/if}
-					<div class="flex items-center gap-3 {isActive ? 'pl-2' : ''}">
-						<category.icon class="h-6 w-6" />
-						<div class="line-clamp-1 flex flex-col">
-							<span class="text-lg font-bold tracking-wide">
-								{categoryLabels[category.id as keyof typeof categoryLabels]?.title}
-							</span>
-							<span class="text-base tracking-wide opacity-85">
-								{categoryLabels[category.id as keyof typeof categoryLabels]?.description}
-							</span>
-						</div>
-					</div>
-				</button>
+					<category.icon data-icon="inline-start" class={cn(active && 'stroke-[2.5]')} />
+					{categoryTitles[category.id as keyof typeof categoryTitles]}
+				</Button>
 			{/each}
 		</nav>
 	</aside>
 
 	<div class="flex-1 overflow-y-auto">
-		{@render children?.()}
+		<!-- padding comun de las paginas; en pc pt-5.75 pone el titulo en la linea base del h1 de al lado -->
+		<div class="flex min-h-full flex-col gap-2 px-5 py-6 lg:px-12 lg:pt-5.75 lg:pb-9">
+			{@render children?.()}
+		</div>
 	</div>
 </div>
