@@ -50,7 +50,7 @@
 	<!-- logo -->
 	<a href="/" class="block px-2.5">
 		<span class="block text-h1">shelter</span>
-		<span class="block text-muted-foreground">{m['app.sidebar.tagline']()}</span>
+		<!-- <span class="block text-muted-foreground">{m['app.sidebar.tagline']()}</span> -->
 	</a>
 
 	<!-- links -->
