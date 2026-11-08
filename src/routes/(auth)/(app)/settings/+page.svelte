@@ -37,7 +37,6 @@ ANYWAYS, i don't want to bother you more,
 so have a nice day and bye bye!
 -->
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import settingsCategories from '$lib/types/app/settingsCategories';
 	import { ChevronRight } from '@lucide/svelte';
 	import { m } from '$lib/paraglide/messages';
@@ -71,26 +70,26 @@ so have a nice day and bye bye!
     esta página es solo para móvil -->
 
 <div class="flex flex-col lg:hidden">
-	<h2 class="mb-6 text-3xl font-bold tracking-wide lowercase">{m['app.settings.title']()}</h2>
+	<h1 class="mb-6 lowercase">{m['app.settings.title']()}</h1>
 	<div class="flex flex-col gap-1">
 		{#each settingsCategories as category (category.id)}
-			<button
-				onclick={() => goto(`/settings/${category.id}`)}
-				class="flex items-center gap-4 rounded-2xl px-4 py-4 text-left transition-colors hover:bg-muted"
+			<a
+				href={`/settings/${category.id}`}
+				class="flex items-center gap-4 rounded-xl p-3 transition-colors hover:bg-muted"
 			>
 				<div class="rounded-xl bg-muted p-2.5">
-					<category.icon class="h-5 w-5" />
+					<category.icon class="size-5" />
 				</div>
-				<div class="flex-1">
-					<p class="text-lg font-semibold tracking-wide lowercase">
+				<div class="min-w-0 flex-1">
+					<p class="font-semibold lowercase">
 						{categoryLabels[category.id as keyof typeof categoryLabels]?.title}
 					</p>
-					<p class="text-sm tracking-wide opacity-60">
+					<p class="text-sm text-muted-foreground lowercase">
 						{categoryLabels[category.id as keyof typeof categoryLabels]?.description}
 					</p>
 				</div>
-				<ChevronRight class="h-4 w-4 opacity-40" />
-			</button>
+				<ChevronRight class="size-4 text-muted-foreground" />
+			</a>
 		{/each}
 	</div>
 </div>
