@@ -1,6 +1,7 @@
 <script lang="ts">
+	import AppPage from '$lib/components/app/AppPage.svelte';
 	import { ArrowLeft, Check, X } from '@lucide/svelte';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from 'shelter-assets';
 	import { goto } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import Editor from '$lib/components/app/editor/Editor.svelte';
@@ -31,47 +32,38 @@
 	<title>{m['metadata.new.title']()}</title>
 </svelte:head>
 
-<main class="flex h-full flex-col px-4 py-4 lg:px-12 lg:py-6">
-	<div class="mb-4 flex items-center justify-between">
-		<Button
-			variant="ghost"
-			href={resolve('/')}
-			class="flex items-center px-2! py-5! text-xl! lg:px-3! lg:py-6! lg:text-2xl!"
-		>
-			<ArrowLeft class="mt-1 -mr-0.5" />
-			home
+<AppPage class="h-full gap-4">
+	<div class="flex items-center justify-between">
+		<Button variant="ghost" class="-ml-2.5 lowercase" href={resolve('/')}>
+			<ArrowLeft data-icon="inline-start" class="translate-y-px" />
+			{m['app.sidebar.nav.home']()}
 		</Button>
 
 		<div class="flex gap-2">
-			<Button
-				variant="ghost"
-				onclick={() => history.back()}
-				class="flex h-10! w-10! items-center justify-center rounded-full"
-			>
-				<X class="h-5! w-5! stroke-3!" />
+			<Button variant="ghost" onclick={() => history.back()} size="icon" class="rounded-full">
+				<X class="stroke-3" />
 			</Button>
 			<Button
 				variant="default"
 				onclick={handleSaveAndRedirect}
 				disabled={entry.isSaving || !entry.title || isEditorEmpty}
-				class="flex h-10! w-10! items-center justify-center rounded-full"
+				size="icon"
+				class="rounded-full"
 			>
-				<Check class="h-5! w-5! stroke-3!" />
+				<Check class="stroke-3" />
 			</Button>
 		</div>
 	</div>
 
-	<div class="px-1 lg:px-2">
-		<input
-			placeholder="untitled entry"
-			type="text"
-			value={entry.title}
-			oninput={(e) => (entry.title = e.currentTarget.value)}
-			class="font-editor mb-4 w-full border-b-2 border-primary bg-transparent text-xl outline-none placeholder:text-muted-foreground lg:text-2xl"
-		/>
-	</div>
+	<input
+		placeholder="untitled entry"
+		type="text"
+		value={entry.title}
+		oninput={(e) => (entry.title = e.currentTarget.value)}
+		class="w-full border-b bg-transparent pb-1 text-h3 outline-none placeholder:text-muted-foreground focus:border-primary"
+	/>
 
-	<div class="flex min-h-0 flex-1 flex-col rounded-sm border-2 bg-secondary/10 py-2">
+	<div class="flex min-h-0 flex-1 flex-col rounded-xl border py-2">
 		<Editor
 			initialContent=""
 			editable={true}
@@ -83,4 +75,4 @@
 			}}
 		/>
 	</div>
-</main>
+</AppPage>

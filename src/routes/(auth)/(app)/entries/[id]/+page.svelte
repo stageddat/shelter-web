@@ -1,4 +1,5 @@
 <script lang="ts">
+	import AppPage from '$lib/components/app/AppPage.svelte';
 	import EntryView from '$lib/components/app/entry/EntryView.svelte';
 	import LoadingText from '$lib/components/shared/LoadingText.svelte';
 	import { useEntry } from '$lib/hooks/app/useEntry.svelte';
@@ -9,32 +10,16 @@
 	const entryState = $derived(useEntry(params.id));
 </script>
 
-{#if !params.id}
-	<div
-		class="flex h-full w-full items-center justify-center text-2xl tracking-wide text-foreground lg:text-4xl"
-	>
-		no id
-	</div>
-{:else if entryState.error}
-	<div
-		class="flex h-full w-full items-center justify-center text-2xl tracking-wide text-foreground lg:text-4xl"
-	>
-		{entryState.error}
-	</div>
-{:else if entryState.isLoading}
-	<div
-		class="flex h-full w-full items-center justify-center text-2xl tracking-wide text-foreground lg:text-4xl"
-	>
-		<LoadingText text="loading entry" />
-	</div>
-{:else if !entryState.entry}
-	<div
-		class="flex h-full w-full items-center justify-center text-2xl tracking-wide text-foreground lg:text-4xl"
-	>
-		entry not found
-	</div>
-{:else}
-	<main class="flex h-full flex-col px-4 py-4 lg:px-12 lg:py-6">
+<AppPage class="h-full gap-4">
+	{#if !params.id}
+		<p class="m-auto text-h3 text-muted-foreground">no id</p>
+	{:else if entryState.error}
+		<p class="m-auto text-h3 text-muted-foreground">{entryState.error}</p>
+	{:else if entryState.isLoading}
+		<p class="m-auto text-h3 text-muted-foreground"><LoadingText text="loading entry" /></p>
+	{:else if !entryState.entry}
+		<p class="m-auto text-h3 text-muted-foreground">entry not found</p>
+	{:else}
 		<EntryView entry={entryState.entry} />
-	</main>
-{/if}
+	{/if}
+</AppPage>
