@@ -193,7 +193,7 @@
         "title": "general",
         "description": "change your appearance, language, etc.",
         "appearance": {
-          "title": "appereance",
+          "title": "appearance",
           "theme": "theme",
           "language": "language",
           "languageWarning": "this will reload the page!",
