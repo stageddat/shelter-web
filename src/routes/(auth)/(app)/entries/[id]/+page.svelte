@@ -4,11 +4,16 @@
 	import LoadingText from '$lib/components/shared/LoadingText.svelte';
 	import { useEntry } from '$lib/hooks/app/useEntry.svelte';
 	import type { PageProps } from './$types';
+	import { m } from '$lib/paraglide/messages';
 
 	const { params }: PageProps = $props();
 
 	const entryState = $derived(useEntry(params.id));
 </script>
+
+<svelte:head>
+	<title>{m['metadata.entry.title']()}</title>
+</svelte:head>
 
 <AppPage class="h-full gap-4">
 	{#if !params.id}
