@@ -4,40 +4,46 @@ import { goto } from '$app/navigation';
 import { type RegisterInput, registerSchema } from '$lib/schemas/register.schema';
 import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 import { resolve } from '$app/paths';
+import { m } from '$lib/paraglide/messages';
 
 export function useSignup() {
 	const auth = getAuthContext();
 
-	let formData = $state<RegisterInput>({
+	const formData = $state<RegisterInput>({
 		username: '',
 		password: '',
 		password2: ''
 	});
 
+	// error general (al crear el diario) y errores de cada campo (validacion)
 	let error = $state('');
+	let fieldErrors = $state<Partial<Record<keyof RegisterInput, string>>>({});
 	let isLoading = $state(false);
 	let isChecking = $state(true);
 
-	const handleChange = (e: Event & { currentTarget: HTMLInputElement }) => {
-		const target = e.currentTarget;
-		formData = {
-			...formData,
-			[target.name]: target.value
-		};
+	// formData se rellena con bind:value; al escribir se quitan los errores de ese campo
+	const clearError = (field: keyof RegisterInput) => {
 		error = '';
+		fieldErrors[field] = undefined;
 	};
 
 	const handleSubmit = async (e: SubmitEvent) => {
 		e.preventDefault();
 		error = '';
+		fieldErrors = {};
 		isLoading = true;
 
 		try {
 			const result = await registerSchema.safeParseAsync(formData);
 
 			if (!result.success) {
-				const firstError = result.error.issues[0]?.message ?? 'invalid data';
-				error = firstError;
+				// el primer error de cada campo, para mostrarlo debajo de ese campo
+				const errors: typeof fieldErrors = {};
+				for (const issue of result.error.issues) {
+					const field = issue.path[0] as keyof RegisterInput;
+					errors[field] ??= issue.message;
+				}
+				fieldErrors = errors;
 				return;
 			}
 
@@ -51,10 +57,10 @@ export function useSignup() {
 				auth.user = user ?? undefined;
 			}
 
-			goto(resolve('/app'));
+			goto(resolve('/'));
 		} catch (err) {
-			console.error('registration error:', err);
-			error = err instanceof Error ? err.message : 'registration failed';
+			console.error('registration error: ', err);
+			error = m['signup.error.unexpected']();
 		} finally {
 			isLoading = false;
 		}
@@ -65,13 +71,13 @@ export function useSignup() {
 			try {
 				const exists = await hasExistingUser();
 
+				// si existe, enviar a login
 				if (exists) {
-					console.log('User already exists, redirecting to login...');
 					goto(resolve('/login'));
 					return;
 				}
 			} catch (err) {
-				console.error('error checking user:', err);
+				console.error('error checking user: ', err);
 			}
 			isChecking = false;
 		}
@@ -86,13 +92,16 @@ export function useSignup() {
 		get error() {
 			return error;
 		},
+		get fieldErrors() {
+			return fieldErrors;
+		},
 		get isLoading() {
 			return isLoading;
 		},
 		get isChecking() {
 			return isChecking;
 		},
-		handleChange,
+		clearError,
 		handleSubmit
 	};
 }

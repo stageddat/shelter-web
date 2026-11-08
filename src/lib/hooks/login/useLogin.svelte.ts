@@ -3,6 +3,7 @@ import { resolve } from '$app/paths';
 import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 import { getUser } from '$lib/services/app/db.service';
 import { login } from '$lib/services/auth/login.service';
+import { m } from '$lib/paraglide/messages';
 
 export function useLogin() {
 	const auth = getAuthContext();
@@ -43,15 +44,14 @@ export function useLogin() {
 			const user = await getUser();
 			auth.masterKey = masterKey;
 			auth.user = user ?? undefined;
-			goto(resolve('/app'));
+			goto(resolve('/'));
 		} catch (err) {
 			if (err instanceof Error && err.message === 'incorrect password') {
-				error = 'invalid password :(. please try again.';
+				error = m['login.error.incorrectPassword']();
 			} else {
 				console.error('unexpected login error: ', err);
-				error = 'something exploded :(. please try again.';
+				error = m['login.error.unexpected']();
 			}
-			throw err;
 		} finally {
 			isLoading = false;
 		}

@@ -1,82 +1,61 @@
 <script lang="ts">
-	import { Label } from '$lib/components/ui/label';
-	import {
-		InputGroup,
-		InputGroupAddon,
-		InputGroupButton,
-		InputGroupInput
-	} from '$lib/components/ui/input-group';
-	import {
-		Tooltip,
-		TooltipContent,
-		TooltipTrigger,
-		TooltipProvider
-	} from '$lib/components/ui/tooltip';
+	import { InputGroup, InputGroupAddon, InputGroupInput } from 'shelter-assets';
+	import { Label } from 'shelter-assets/interactive';
+	import PasswordVisibilityButton from '$lib/components/shared/PasswordVisibilityButton.svelte';
 	import { type FormFieldConfig } from '$lib/constants/signup/formFields';
 
 	interface FormFieldProps {
 		field: FormFieldConfig;
 		value: string;
-		onChange: (e: Event & { currentTarget: HTMLInputElement }) => void;
+		onInput?: () => void;
+		error?: string;
 		disabled?: boolean;
 	}
 
-	let { field, value, onChange, disabled = false }: FormFieldProps = $props();
+	let { field, value = $bindable(''), onInput, error, disabled = false }: FormFieldProps = $props();
 
 	const Icon = $derived(field.icon);
-	const TooltipIcon = $derived(field.tooltipIcon);
+	let passwordVisible = $state(false);
+
+	const isPassword = $derived(field.type === 'password');
+	// el error sustituye a la ayuda mientras se muestra
+	const messageId = $derived(
+		error ? `${field.id}-error` : field.hint ? `${field.id}-hint` : undefined
+	);
 </script>
 
 <div class="space-y-2">
-	<Label class="text-xl" for={String(field.id)}>
+	<Label for={field.id}>
 		{field.label}
 	</Label>
 
-	<InputGroup class="h-12!">
+	<InputGroup>
 		<InputGroupInput
-			type={field.type}
+			type={isPassword && passwordVisible ? 'text' : field.type}
 			autocomplete={field.autocomplete}
-			id={String(field.id)}
-			name={String(field.name)}
-			value={value ?? ''}
-			oninput={onChange}
+			id={field.id}
+			name={field.name}
+			bind:value
+			oninput={onInput}
 			placeholder={field.placeholder}
-			class="text-lg!"
+			aria-invalid={error ? true : undefined}
+			aria-describedby={messageId}
 			required
 			{disabled}
 		/>
 
 		<InputGroupAddon>
-			{#if Icon}
-				<Icon />
-			{/if}
+			<Icon />
 		</InputGroupAddon>
 
-		{#if TooltipIcon && field.tooltipContent}
-			<InputGroupAddon align="inline-end">
-				<TooltipProvider>
-					<Tooltip>
-						<TooltipTrigger>
-							{#snippet child({ props })}
-								<InputGroupButton {...props} class="rounded-full" size="icon-sm">
-									<TooltipIcon />
-								</InputGroupButton>
-							{/snippet}
-						</TooltipTrigger>
-
-						<TooltipContent>
-							{#each field.tooltipContent.split('\n') as line, i (i)}
-								<span>
-									{line}
-									{#if i < field.tooltipContent.split('\n').length - 1}
-										<br />
-									{/if}
-								</span>
-							{/each}
-						</TooltipContent>
-					</Tooltip>
-				</TooltipProvider>
-			</InputGroupAddon>
+		{#if isPassword}
+			<PasswordVisibilityButton bind:visible={passwordVisible} />
 		{/if}
 	</InputGroup>
+
+	{#if error}
+		<p id={messageId} class="text-sm text-destructive-text">{error}</p>
+	{:else if field.hint}
+		<p id={messageId} class="text-sm text-muted-foreground">{field.hint}</p>
+	{/if}
 </div>

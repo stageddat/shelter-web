@@ -44,6 +44,8 @@
 			extensions: [StarterKit.configure({ heading: false }), CharacterCount],
 			content: initialContent ? JSON.parse(initialContent) : '',
 			editable,
+			// .prose de shelter-assets
+			editorProps: { attributes: { class: 'prose' } },
 			onUpdate: ({ editor: e }) => {
 				onChange?.(JSON.stringify(e.getJSON()));
 				onEmptyChange?.(e.isEmpty);
@@ -71,7 +73,7 @@
 	{#if editable && editor}
 		<div transition:slide={{ duration: 200 }}>
 			<EditorToolbar {editor} />
-			<Separator class="mb-4 h-0.5!" />
+			<Separator class="mb-4" />
 		</div>
 	{/if}
 
@@ -79,7 +81,7 @@
 
 	{#if editor}
 		<div class="mt-4">
-			<Separator class="my-2 h-0.5!" />
+			<Separator class="my-2" />
 			<EditorFooter {wordCount} {charCount} {date} {time} />
 		</div>
 	{/if}
@@ -107,29 +109,5 @@
 
 	.tiptap-editor :global(.tiptap[contenteditable='true']) {
 		cursor: text;
-	}
-
-	.tiptap-editor :global(.tiptap p) {
-		@apply mb-2 font-patrick text-xl leading-relaxed last:mb-0 lg:text-2xl;
-	}
-
-	.tiptap-editor :global(.tiptap h1) {
-		@apply mt-8 mb-4 text-2xl font-bold first:mt-0 last:mb-0 lg:text-3xl;
-	}
-
-	.tiptap-editor :global(.tiptap ul) {
-		@apply my-4 list-disc pl-5;
-	}
-
-	.tiptap-editor :global(.tiptap ol) {
-		@apply my-4 list-decimal pl-5;
-	}
-
-	.tiptap-editor :global(.tiptap li) {
-		@apply mb-1 font-patrick text-xl leading-relaxed lg:text-2xl;
-	}
-
-	.tiptap-editor :global(.tiptap ::selection) {
-		@apply bg-selection text-foreground;
 	}
 </style>

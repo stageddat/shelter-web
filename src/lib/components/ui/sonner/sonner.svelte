@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { Toaster as Sonner, type ToasterProps as SonnerProps } from "svelte-sonner";
-	import { mode } from "mode-watcher";
 	import Loader2Icon from '@lucide/svelte/icons/loader-2';
 	import CircleCheckIcon from '@lucide/svelte/icons/circle-check';
 	import OctagonXIcon from '@lucide/svelte/icons/octagon-x';
@@ -8,10 +7,21 @@
 	import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
 
 	let { ...restProps }: SonnerProps = $props();
+
+	// el tema lo pone shelter-assets como clase .dark en <html>
+	let scheme = $state<'light' | 'dark'>('light');
+	$effect(() => {
+		const root = document.documentElement;
+		const update = () => (scheme = root.classList.contains('dark') ? 'dark' : 'light');
+		update();
+		const observer = new MutationObserver(update);
+		observer.observe(root, { attributes: true, attributeFilter: ['class'] });
+		return () => observer.disconnect();
+	});
 </script>
 
 <Sonner
-	theme={mode.current}
+	theme={scheme}
 	class="toaster group"
 	style="--normal-bg: var(--color-popover); --normal-text: var(--color-popover-foreground); --normal-border: var(--color-border);"
 	{...restProps}
