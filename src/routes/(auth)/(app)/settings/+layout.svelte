@@ -39,7 +39,10 @@
 					href={`/settings/${category.id}`}
 					aria-current={active ? 'page' : undefined}
 				>
-					<category.icon data-icon="inline-start" class={cn(active && 'stroke-[2.5]')} />
+					<category.icon
+						data-icon="inline-start"
+						class={cn('translate-y-px', active && 'stroke-[2.5]')}
+					/>
 					{categoryTitles[category.id as keyof typeof categoryTitles]}
 				</Button>
 			{/each}

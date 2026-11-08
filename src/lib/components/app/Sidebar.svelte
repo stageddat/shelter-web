@@ -65,7 +65,7 @@
 				href={desktopHref ?? href}
 				aria-current={active ? 'page' : undefined}
 			>
-				<Icon data-icon="inline-start" class={cn(active && 'stroke-[2.5]')} />
+				<Icon data-icon="inline-start" class={cn('translate-y-px', active && 'stroke-[2.5]')} />
 				{label}
 			</Button>
 		{/each}

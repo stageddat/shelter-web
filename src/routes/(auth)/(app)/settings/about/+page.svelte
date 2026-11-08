@@ -99,7 +99,7 @@
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<Bug data-icon="inline-start" />
+			<Bug data-icon="inline-start" class="translate-y-px" />
 			{m['app.settings.about.links.reportBug']()}
 		</Button>
 		<Button
@@ -109,7 +109,7 @@
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<HouseHeart data-icon="inline-start" />
+			<HouseHeart data-icon="inline-start" class="translate-y-px" />
 			{m['app.settings.about.links.discord']()}
 		</Button>
 		<Button
@@ -119,7 +119,7 @@
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<Coffee data-icon="inline-start" />
+			<Coffee data-icon="inline-start" class="translate-y-px" />
 			{m['app.settings.about.links.kofi']()}
 		</Button>
 		<Button
@@ -129,7 +129,7 @@
 			target="_blank"
 			rel="noopener noreferrer"
 		>
-			<Globe data-icon="inline-start" />
+			<Globe data-icon="inline-start" class="translate-y-px" />
 			{m['app.settings.about.links.translate']()}
 		</Button>
 	</div>
