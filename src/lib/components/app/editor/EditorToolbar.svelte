@@ -45,8 +45,8 @@
 
 <div class="mb-2 flex gap-1 px-3">
 	{#each buttons as button, i (i)}
-		<Toggle pressed={button.isActive()} onPressedChange={button.run} class="rounded p-2">
-			<button.icon class="h-4 w-4" />
+		<Toggle pressed={button.isActive()} onPressedChange={button.run}>
+			<button.icon />
 		</Toggle>
 	{/each}
 </div>
