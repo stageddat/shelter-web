@@ -22,6 +22,8 @@ export default defineConfig({
 		sveltekit(),
 		tailwindcss(),
 		SvelteKitPWA({
+			// TODO: pwa disabled
+			disable: true,
 			registerType: 'prompt',
 			kit: {
 				adapterFallback: 'app.html',
