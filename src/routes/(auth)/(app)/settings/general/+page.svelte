@@ -5,9 +5,12 @@
 	import Switch from '$lib/components/ui/switch/switch.svelte';
 	import { onMount } from 'svelte';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
+	import SettingsRow from '$lib/components/app/SettingsRow.svelte';
+	import SettingsSection from '$lib/components/app/SettingsSection.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { getLocale, isLocale, setLocale } from '$lib/paraglide/runtime';
 	import {
+		Button,
 		InputGroup,
 		InputGroupAddon,
 		InputGroupButton,
@@ -71,20 +74,13 @@
 	<title>{m['metadata.settings_general.title']()}</title>
 </svelte:head>
 
-<!-- header -->
 <SettingsPageHeader
 	title={m['app.settings.general.title']()}
 	description={m['app.settings.general.description']()}
 />
-<!-- appereance -->
-<div class="mb-6">
-	<h2 class="mb-2 text-xl tracking-widest uppercase lg:text-2xl">
-		{m['app.settings.general.appearance.title']()}
-	</h2>
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.general.appearance.theme']()}
-		</p>
+
+<SettingsSection title={m['app.settings.general.appearance.title']()}>
+	<SettingsRow label={m['app.settings.general.appearance.theme']()}>
 		<ThemeSelector
 			label={m['app.settings.general.appearance.theme']()}
 			labels={{
@@ -94,17 +90,11 @@
 				'mocha-lavender': m['app.settings.general.appearance.themes.mochaLavender']()
 			}}
 		/>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<div>
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.general.appearance.language']()}
-			</p>
-			<p class="text-sm tracking-wide lowercase opacity-60 lg:text-base">
-				{m['app.settings.general.appearance.languageWarning']()}
-			</p>
-		</div>
+	</SettingsRow>
+	<SettingsRow
+		label={m['app.settings.general.appearance.language']()}
+		description={m['app.settings.general.appearance.languageWarning']()}
+	>
 		<LanguageSelector
 			current={getLocale()}
 			{languages}
@@ -116,26 +106,25 @@
 				community: m['app.settings.general.appearance.languageGroups.community']()
 			}}
 		/>
-	</div>
-</div>
+	</SettingsRow>
+</SettingsSection>
 
-<!-- user -->
-<div class="mb-6">
-	<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
-		{m['app.settings.general.user.title']()}
-	</h2>
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.general.user.displayName']()}
-		</p>
+{#snippet copyButton(type: 'username' | 'id', value?: string)}
+	<Button variant="outline" size="sm" class="min-w-0" onclick={() => handleCopy(type)}>
+		<span class="max-w-32 truncate font-mono font-normal lg:max-w-none">{value}</span>
+		{#if copied === type}<Check data-icon="inline-end" />{:else}<Copy data-icon="inline-end" />{/if}
+	</Button>
+{/snippet}
+
+<SettingsSection title={m['app.settings.general.user.title']()}>
+	<SettingsRow label={m['app.settings.general.user.displayName']()}>
 		<InputGroup class="w-40 lg:w-sm">
 			<InputGroupInput
-				class="text-base! lg:text-xl!"
 				placeholder={m['app.settings.general.user.displayNamePlaceholder']()}
 				bind:value={displayName}
 				maxlength={20}
 			/>
-			<InputGroupAddon align="inline-end" class="margin-0 gap-0">
+			<InputGroupAddon align="inline-end" class="gap-0">
 				{#if displayName !== auth.user?.displayName}
 					<InputGroupButton
 						variant="ghost"
@@ -154,61 +143,20 @@
 				{/if}
 			</InputGroupAddon>
 		</InputGroup>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.general.user.username']()}
-		</p>
-		<button
-			onclick={() => handleCopy('username')}
-			class="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-muted/60 px-3 py-1 transition-opacity hover:opacity-90"
-		>
-			<span class="max-w-32 truncate font-mono text-sm opacity-85 lg:max-w-none lg:text-base"
-				>{auth.user?.username}</span
-			>
-			{#if copied === 'username'}<Check class="size-3.5 shrink-0" />{:else}<Copy
-					class="size-3.5 shrink-0"
-				/>{/if}
-		</button>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.general.user.userId']()}
-		</p>
-		<button
-			onclick={() => handleCopy('id')}
-			class="flex cursor-pointer items-center gap-2 rounded-md border border-border bg-muted/60 px-3 py-1 transition-opacity hover:opacity-90"
-		>
-			<span class="max-w-32 truncate font-mono text-sm opacity-85 lg:max-w-none lg:text-base"
-				>{auth.user?.id}</span
-			>
-			{#if copied === 'id'}<Check class="size-3.5 shrink-0" />{:else}<Copy
-					class="size-3.5 shrink-0"
-				/>{/if}
-		</button>
-	</div>
-</div>
+	</SettingsRow>
+	<SettingsRow label={m['app.settings.general.user.username']()}>
+		{@render copyButton('username', auth.user?.username)}
+	</SettingsRow>
+	<SettingsRow label={m['app.settings.general.user.userId']()}>
+		{@render copyButton('id', auth.user?.id)}
+	</SettingsRow>
+</SettingsSection>
 
-<!-- privacy -->
-<div class="mb-6">
-	<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
-		{m['app.settings.general.privacy.title']()}
-	</h2>
-	<div class="flex flex-row items-center justify-between gap-2">
-		<div>
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.general.privacy.analytics']()}
-			</p>
-			<p class="text-sm tracking-wide lowercase opacity-60 lg:text-base">
-				{m['app.settings.general.privacy.analyticsDescription']()}
-			</p>
-		</div>
-		<div class="flex items-center space-x-2">
-			<Switch id="analytics" checked={analyticsEnabled} onCheckedChange={toggleAnalytics} />
-		</div>
-	</div>
-
-	<!-- <hr class="my-4 border-current opacity-10" /> -->
-</div>
+<SettingsSection title={m['app.settings.general.privacy.title']()}>
+	<SettingsRow
+		label={m['app.settings.general.privacy.analytics']()}
+		description={m['app.settings.general.privacy.analyticsDescription']()}
+	>
+		<Switch id="analytics" checked={analyticsEnabled} onCheckedChange={toggleAnalytics} />
+	</SettingsRow>
+</SettingsSection>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
 	import { exportFullBackup } from '$lib/services/backup/export.service';
 	import { checkImportCompatibility, importFullBackup } from '$lib/services/backup/import.service';
 	import { purgeAllData } from '$lib/services/app/db.service';
@@ -7,7 +6,9 @@
 	import { Trash2, FileUp, FileDown } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
+	import SettingsSection from '$lib/components/app/SettingsSection.svelte';
 	import { m } from '$lib/paraglide/messages';
+	import { Button } from 'shelter-assets';
 
 	const auth = getAuthContext();
 	let exporting = $state(false);
@@ -103,92 +104,59 @@
 
 <input bind:this={fileInput} type="file" accept=".shelter" class="hidden" onchange={handleImport} />
 
-<!-- header -->
 <SettingsPageHeader
 	title={m['app.settings.data.title']()}
 	description={m['app.settings.data.description']()}
 />
-<!-- import & export -->
-<div class="mb-4">
-	<p class="tracking-widets mb-1 text-xl uppercase lg:text-2xl">
-		{m['app.settings.data.importExport.title']()}
-	</p>
-	<p class="mb-4 text-base lowercase opacity-85 lg:text-xl">
-		{m['app.settings.data.importExport.subtitle']()}
-	</p>
+
+<SettingsSection
+	title={m['app.settings.data.importExport.title']()}
+	subtitle={m['app.settings.data.importExport.subtitle']()}
+>
 	<div class="flex w-full flex-col gap-4 lg:flex-row">
-		<div
-			class="flex w-full flex-col rounded-xl border border-current p-5 lg:w-1/2"
-			style="border-opacity: 0.1;"
-		>
-			<p class="mb-1 text-xl font-semibold tracking-wide lowercase lg:text-2xl">
-				{m['app.settings.data.importExport.exportTitle']()}
-			</p>
-			<p class="mb-6 text-base leading-relaxed lowercase opacity-60 lg:text-xl">
+		<div class="flex w-full flex-col rounded-xl border p-5 lg:w-1/2">
+			<h4 class="mb-1 lowercase">{m['app.settings.data.importExport.exportTitle']()}</h4>
+			<p class="mb-6 text-muted-foreground lowercase">
 				{m['app.settings.data.importExport.exportDescription']()}
 			</p>
-			<Button
-				class="mt-auto h-12 w-full cursor-pointer text-lg lg:text-xl"
-				onclick={handleExport}
-				disabled={exporting}
-			>
-				<FileDown class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
+			<Button class="mt-auto w-full" onclick={handleExport} disabled={exporting}>
+				<FileDown data-icon="inline-start" />
 				{exporting
 					? m['app.settings.data.importExport.exportingButton']()
 					: m['app.settings.data.importExport.exportButton']()}
 			</Button>
 		</div>
-		<div
-			class="flex w-full flex-col rounded-xl border border-current p-5 lg:w-1/2"
-			style="border-opacity: 0.1;"
-		>
-			<p class="mb-1 text-xl font-semibold tracking-wide lowercase lg:text-2xl">
-				{m['app.settings.data.importExport.importTitle']()}
-			</p>
-			<p class="mb-6 text-base leading-relaxed lowercase opacity-60 lg:text-xl">
+		<div class="flex w-full flex-col rounded-xl border p-5 lg:w-1/2">
+			<h4 class="mb-1 lowercase">{m['app.settings.data.importExport.importTitle']()}</h4>
+			<p class="mb-6 text-muted-foreground lowercase">
 				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 				{@html m['app.settings.data.importExport.importDescription']()}
 			</p>
-			<Button
-				class="mt-auto h-12 w-full cursor-pointer text-lg lg:text-xl"
-				onclick={handleImportClick}
-				disabled={importing}
-			>
-				<FileUp class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
+			<Button class="mt-auto w-full" onclick={handleImportClick} disabled={importing}>
+				<FileUp data-icon="inline-start" />
 				{importing
 					? m['app.settings.data.importExport.importingButton']()
 					: m['app.settings.data.importExport.importButton']()}
 			</Button>
 		</div>
 	</div>
-</div>
+</SettingsSection>
 
-<hr class="border-current opacity-25" />
-
-<!-- purge -->
-<div class="my-4">
-	<p class="tracking-widets mb-1 text-xl uppercase lg:text-2xl">
-		{m['app.settings.data.dangerZone.title']()}
-	</p>
-	<p class="mb-4 text-base lowercase opacity-85 lg:text-xl">
-		{m['app.settings.data.dangerZone.subtitle']()}
-	</p>
+<SettingsSection
+	title={m['app.settings.data.dangerZone.title']()}
+	subtitle={m['app.settings.data.dangerZone.subtitle']()}
+>
 	<div
 		class="flex flex-col gap-4 rounded-xl border border-destructive/20 p-5 lg:flex-row lg:items-center lg:justify-between"
 	>
-		<p class="text-base leading-relaxed text-destructive lowercase opacity-90 lg:w-9/12 lg:text-xl">
+		<p class="text-destructive-text lowercase">
 			{m['app.settings.data.dangerZone.description']()}
 		</p>
-		<Button
-			class="h-12 w-full cursor-pointer text-lg lg:w-3/12 lg:text-xl"
-			onclick={handlePurge}
-			disabled={purging}
-			variant="destructive"
-		>
-			<Trash2 class="mr-1 h-5! w-5! lg:h-6! lg:w-6!" />
+		<Button class="w-full lg:w-auto" onclick={handlePurge} disabled={purging} variant="destructive">
+			<Trash2 data-icon="inline-start" />
 			{purging
 				? m['app.settings.data.dangerZone.purgingButton']()
 				: m['app.settings.data.dangerZone.purgeButton']()}
 		</Button>
 	</div>
-</div>
+</SettingsSection>

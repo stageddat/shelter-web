@@ -48,7 +48,7 @@
 
 	<div class="flex-1 overflow-y-auto">
 		<!-- padding comun de las paginas; en pc pt-5.75 pone el titulo en la linea base del h1 de al lado -->
-		<div class="flex min-h-full flex-col gap-2 px-5 py-6 lg:px-12 lg:pt-5.75 lg:pb-9">
+		<div class="flex min-h-full flex-col gap-8 px-5 py-6 lg:px-12 lg:pt-5.75 lg:pb-9">
 			{@render children?.()}
 		</div>
 	</div>

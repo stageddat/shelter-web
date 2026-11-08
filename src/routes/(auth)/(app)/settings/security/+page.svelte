@@ -3,9 +3,8 @@
 
 	import { getAuthContext } from '$lib/contexts/auth.context.svelte';
 	import { Check } from '@lucide/svelte';
-	import { Button, buttonVariants } from '$lib/components/ui/button/index.js';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
-	import { Input } from 'shelter-assets';
+	import { Button, buttonVariants, Input } from 'shelter-assets';
 	import { Label } from 'shelter-assets/interactive';
 	import { changePassword } from '$lib/services/auth/changePassword.service';
 	import { toast } from 'svelte-sonner';
@@ -72,6 +71,8 @@
 		downloadRecoveryFile
 	} from '$lib/services/auth/recoveryKey.service';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
+	import SettingsRow from '$lib/components/app/SettingsRow.svelte';
+	import SettingsSection from '$lib/components/app/SettingsSection.svelte';
 	import { m } from '$lib/paraglide/messages';
 
 	let showRecoveryKey = $state(false);
@@ -111,37 +112,23 @@
 	description={m['app.settings.security.description']()}
 />
 
-<div class="mb-6">
-	<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
-		{m['app.settings.security.options.title']()}
-	</h2>
-
+<SettingsSection title={m['app.settings.security.options.title']()}>
 	<!-- change password -->
-	<div class="flex flex-row items-center justify-between gap-2">
-		<div>
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.security.options.changePassword']()}
-			</p>
-			<p class="text-sm tracking-wide lowercase opacity-60">
-				{m['app.settings.security.options.changePasswordDescription']()}
-			</p>
-		</div>
+	<SettingsRow
+		label={m['app.settings.security.options.changePassword']()}
+		description={m['app.settings.security.options.changePasswordDescription']()}
+	>
 		<Dialog.Root bind:open={showChangePassword}>
 			<form>
-				<Dialog.Trigger
-					type="button"
-					class="{buttonVariants({
-						variant: 'outline'
-					})} h-10 gap-2 border-border/40 bg-secondary px-3 text-base text-muted-foreground hover:text-foreground lg:text-xl"
-				>
+				<Dialog.Trigger type="button" class={buttonVariants({ variant: 'outline' })}>
 					{m['app.settings.security.options.changePasswordButton']()}
 				</Dialog.Trigger>
 				<Dialog.Content class="w-[90vw] sm:max-w-106.25">
 					<Dialog.Header class="gap-0.5!">
-						<Dialog.Title class="text-2xl"
+						<Dialog.Title class="text-h3"
 							>{m['app.settings.security.options.changePasswordDialogTitle']()}</Dialog.Title
 						>
-						<Dialog.Description class="text-lg"
+						<Dialog.Description class="text-base"
 							>{m[
 								'app.settings.security.options.changePasswordDialogDescription'
 							]()}</Dialog.Description
@@ -149,7 +136,7 @@
 					</Dialog.Header>
 					<div class="grid gap-1">
 						<div class="grid gap-1">
-							<Label for="oldPassword" class="text-lg"
+							<Label for="oldPassword"
 								>{m['app.settings.security.options.changePasswordOld']()}</Label
 							>
 							<Input
@@ -157,12 +144,11 @@
 								name="oldPassword"
 								autocomplete="current-password"
 								bind:value={oldPassword}
-								class="text-lg"
 								type="password"
 							/>
 						</div>
 						<div class="grid gap-1">
-							<Label for="newPassword" class="text-lg"
+							<Label for="newPassword"
 								>{m['app.settings.security.options.changePasswordNew']()}</Label
 							>
 							<Input
@@ -170,12 +156,11 @@
 								name="newPassword"
 								autocomplete="new-password"
 								bind:value={newPassword}
-								class="text-lg"
 								type="password"
 							/>
 						</div>
 						<div class="grid gap-1">
-							<Label for="confirmPassword" class="text-lg"
+							<Label for="confirmPassword"
 								>{m['app.settings.security.options.changePasswordConfirm']()}</Label
 							>
 							<Input
@@ -183,7 +168,6 @@
 								name="confirmPassword"
 								autocomplete="new-password"
 								bind:value={confirmPassword}
-								class="text-lg"
 								type="password"
 							/>
 						</div>
@@ -192,15 +176,10 @@
 						{/if}
 					</div>
 					<Dialog.Footer>
-						<Dialog.Close type="button" class="text-lg! {buttonVariants({ variant: 'outline' })}"
+						<Dialog.Close type="button" class={buttonVariants({ variant: 'outline' })}
 							>{m['app.settings.security.options.changePasswordCancel']()}</Dialog.Close
 						>
-						<Button
-							onclick={handleChangePassword}
-							disabled={passwordLoading}
-							type="submit"
-							class="text-lg!"
-						>
+						<Button onclick={handleChangePassword} disabled={passwordLoading} type="submit">
 							{passwordLoading
 								? m['app.settings.security.options.changePasswordSubmitting']()
 								: m['app.settings.security.options.changePasswordSubmit']()}
@@ -209,27 +188,17 @@
 				</Dialog.Content>
 			</form>
 		</Dialog.Root>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
+	</SettingsRow>
 
 	<!-- auto lock -->
-	<div class="flex flex-row items-center justify-between gap-2">
-		<div>
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.security.options.autoLock']()}
-			</p>
-			<p class="text-sm tracking-wide lowercase opacity-60">
-				{m['app.settings.security.options.autoLockDescription']()}
-			</p>
-		</div>
+	<SettingsRow
+		label={m['app.settings.security.options.autoLock']()}
+		description={m['app.settings.security.options.autoLockDescription']()}
+	>
 		<DropdownMenu.Root>
 			<DropdownMenu.Trigger>
 				{#snippet child({ props })}
-					<Button
-						{...props}
-						variant="outline"
-						class="h-10 gap-2 border-border/40 bg-secondary px-3 text-base text-muted-foreground hover:text-foreground lg:text-xl"
-					>
+					<Button {...props} variant="outline">
 						{LOCK_OPTIONS.find((o) => o.value === selected)?.label ??
 							m['app.settings.security.options.lockOptions.15min']()}
 					</Button>
@@ -237,10 +206,7 @@
 			</DropdownMenu.Trigger>
 			<DropdownMenu.Content align="end">
 				{#each LOCK_OPTIONS as option (option.value)}
-					<DropdownMenu.Item
-						onclick={() => handleSelect(option.value)}
-						class="text-base tracking-wide"
-					>
+					<DropdownMenu.Item onclick={() => handleSelect(option.value)} class="text-base">
 						<span class="w-4 text-muted-foreground"
 							>{#if selected === option.value}<Check />{/if}</span
 						>
@@ -249,38 +215,28 @@
 				{/each}
 			</DropdownMenu.Content>
 		</DropdownMenu.Root>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
+	</SettingsRow>
 
 	<!-- recovery key -->
-	<div class="flex flex-row items-center justify-between gap-2">
-		<div>
-			<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-				{m['app.settings.security.options.recoveryKey']()}
-			</p>
-			<p class="text-sm tracking-wide lowercase opacity-60">
-				{m['app.settings.security.options.recoveryKeyDescription']()}
-			</p>
-		</div>
+	<SettingsRow
+		label={m['app.settings.security.options.recoveryKey']()}
+		description={m['app.settings.security.options.recoveryKeyDescription']()}
+	>
 		<Dialog.Root
 			bind:open={showRecoveryKey}
 			onOpenChange={(o) => {
 				if (!o) handleCloseRecovery();
 			}}
 		>
-			<Dialog.Trigger
-				class="{buttonVariants({
-					variant: 'outline'
-				})} h-10 gap-2 border-border/40 bg-secondary px-3 text-base text-muted-foreground hover:text-foreground lg:text-xl"
-			>
+			<Dialog.Trigger class={buttonVariants({ variant: 'outline' })}>
 				{m['app.settings.security.options.recoveryKeyGenerate']()}
 			</Dialog.Trigger>
 			<Dialog.Content class="w-[90vw] sm:max-w-lg">
 				<Dialog.Header>
-					<Dialog.Title class="text-2xl"
+					<Dialog.Title class="text-h3"
 						>{m['app.settings.security.options.recoveryKeyDialogTitle']()}</Dialog.Title
 					>
-					<Dialog.Description class="text-lg lg:text-xl">
+					<Dialog.Description class="text-base">
 						{#if recoveryStep === 'generate'}
 							{@html m['app.settings.security.options.recoveryKeyDialogDescriptionGenerate']()}
 						{:else}
@@ -289,14 +245,14 @@
 					</Dialog.Description>
 				</Dialog.Header>
 				{#if recoveryStep === 'generate'}
-					<p class="text-base tracking-wider text-destructive uppercase lg:text-lg">
+					<p class="text-destructive-text">
 						{m['app.settings.security.options.recoveryKeyWarning']()}
 					</p>
 					<Dialog.Footer>
-						<Dialog.Close class="text-lg! {buttonVariants({ variant: 'outline' })}"
+						<Dialog.Close class={buttonVariants({ variant: 'outline' })}
 							>{m['app.settings.security.options.recoveryKeyCancel']()}</Dialog.Close
 						>
-						<Button onclick={handleGenerateKeyFile} disabled={recoveryLoading} class="text-lg!">
+						<Button onclick={handleGenerateKeyFile} disabled={recoveryLoading}>
 							{recoveryLoading
 								? m['app.settings.security.options.recoveryKeyGenerating']()
 								: m['app.settings.security.options.recoveryKeyGenerateDownload']()}
@@ -307,72 +263,38 @@
 						<div class="grid grid-cols-3 gap-2">
 							{#each recoveryPhrase.split(' ') as word, i (i)}
 								<div class="flex items-center gap-2">
-									<span class="text-sm text-foreground/85 opacity-60 select-none">{i + 1}.</span>
-									<span class="font-mono text-base lg:text-lg">{word}</span>
+									<span class="text-sm text-muted-foreground select-none">{i + 1}.</span>
+									<span class="font-mono">{word}</span>
 								</div>
 							{/each}
 						</div>
 					</div>
-					<p class="text-base opacity-60 lg:text-xl">
+					<p class="text-muted-foreground">
 						{m['app.settings.security.options.recoveryKeyFileDownloaded']()}
 					</p>
 					<Dialog.Footer>
-						<Button onclick={handleCloseRecovery} class="text-lg!"
+						<Button onclick={handleCloseRecovery}
 							>{m['app.settings.security.options.recoveryKeySaved']()}</Button
 						>
 					</Dialog.Footer>
 				{/if}
 			</Dialog.Content>
 		</Dialog.Root>
-	</div>
-</div>
+	</SettingsRow>
+</SettingsSection>
 
 <!-- info — estos valores son técnicos, los dejo hardcoded salvo los labels -->
-<div class="mb-6">
-	<h2 class="tracking-widets mb-2 text-xl uppercase lg:text-2xl">
-		{m['app.settings.security.info.title']()}
-	</h2>
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.security.info.passwordDerivation']()}
-		</p>
-		<p class="text-sm text-foreground/85 lg:text-lg">PBKDF2 (SHA-256)</p>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.security.info.derivationIterations']()}
-		</p>
-		<p class="text-sm text-foreground/85 lg:text-lg">600,000</p>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.security.info.saltSize']()}
-		</p>
-		<p class="text-sm text-foreground/85 lg:text-lg">16 bytes</p>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.security.info.encryptionAlgorithm']()}
-		</p>
-		<p class="text-sm text-foreground/85 lg:text-lg">AES-GCM (256 bits)</p>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.security.info.iv']()}
-		</p>
-		<p class="text-sm text-foreground/85 lg:text-lg">12 bytes</p>
-	</div>
-	<hr class="my-4 border-current opacity-10" />
-	<div class="flex flex-row items-center justify-between gap-2">
-		<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-			{m['app.settings.security.info.encryptionArchitecture']()}
-		</p>
-		<p class="text-sm text-foreground/85 lg:text-lg">
-			{m['app.settings.security.info.hybridValue']()}
-		</p>
-	</div>
-</div>
+<SettingsSection title={m['app.settings.security.info.title']()}>
+	<SettingsRow label={m['app.settings.security.info.passwordDerivation']()}>
+		PBKDF2 (SHA-256)
+	</SettingsRow>
+	<SettingsRow label={m['app.settings.security.info.derivationIterations']()}>600,000</SettingsRow>
+	<SettingsRow label={m['app.settings.security.info.saltSize']()}>16 bytes</SettingsRow>
+	<SettingsRow label={m['app.settings.security.info.encryptionAlgorithm']()}>
+		AES-GCM (256 bits)
+	</SettingsRow>
+	<SettingsRow label={m['app.settings.security.info.iv']()}>12 bytes</SettingsRow>
+	<SettingsRow label={m['app.settings.security.info.encryptionArchitecture']()}>
+		{m['app.settings.security.info.hybridValue']()}
+	</SettingsRow>
+</SettingsSection>

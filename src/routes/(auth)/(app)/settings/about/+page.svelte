@@ -1,142 +1,136 @@
 <script lang="ts">
 	import packageJson from '$lib/../../package.json';
 	import SettingsPageHeader from '$lib/components/app/SettingsPageHeader.svelte';
+	import SettingsSection from '$lib/components/app/SettingsSection.svelte';
 	import { m } from '$lib/paraglide/messages';
 	import { landingUrl } from '$lib/utils/landing';
 	import { Bug, Coffee, Globe, HouseHeart, Users } from '@lucide/svelte';
+	import { Button } from 'shelter-assets';
 </script>
 
 <svelte:head>
 	<title>{m['metadata.settings_about.title']()}</title>
 </svelte:head>
 
-<!-- header -->
 <SettingsPageHeader
 	title={m['app.settings.about.title']()}
 	description={m['app.settings.about.description']()}
 />
 
-<!-- project description -->
-<div class="my-4 flex flex-col gap-2">
-	<p class="tracking-widets text-xl uppercase lg:text-2xl">
-		{m['app.settings.about.whatIs.title']()}
-	</p>
-	<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-		{m['app.settings.about.whatIs.description']()}
-	</p>
-</div>
+<SettingsSection title={m['app.settings.about.whatIs.title']()}>
+	<p class="lowercase">{m['app.settings.about.whatIs.description']()}</p>
+</SettingsSection>
 
-<hr class="border-current opacity-10" />
+<SettingsSection title={m['app.settings.about.info.title']()}>
+	<div class="flex flex-col gap-1">
+		<p class="lowercase">
+			{m['app.settings.about.info.version']()}
+			<span class="text-muted-foreground">{packageJson.version}</span>
+		</p>
+		<p class="lowercase">
+			{m['app.settings.about.info.source']()}
+			<a
+				href="https://github.com/Stageddat/shelter-web"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
+			>
+				github.com/Stageddat/shelter-web
+			</a>
+		</p>
+		<p class="lowercase">
+			{m['app.settings.about.info.website']()}
+			<a
+				href={landingUrl()}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
+			>
+				shelter.cat
+			</a>
+		</p>
+		<p>
+			{m['app.settings.about.info.license']()}
+			<a
+				href="https://github.com/Stageddat/shelter-web/blob/main/LICENSE"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
+			>
+				GNU AFFERO GENERAL PUBLIC LICENSE v3.0
+			</a>
+		</p>
+		<p class="lowercase">
+			{m['app.settings.about.info.translations']()}
+			<a
+				href="https://i18n.stageddat.dev/projects/shelter-web/"
+				target="_blank"
+				rel="noopener noreferrer"
+				class="text-muted-foreground underline underline-offset-2 transition-colors hover:text-foreground"
+			>
+				{m['app.settings.about.info.translationsLink']()}
+			</a>
+		</p>
+	</div>
+</SettingsSection>
 
-<!-- project info -->
-<div class="my-4 flex flex-col gap-2">
-	<p class="tracking-widets text-xl uppercase lg:text-2xl">
-		{m['app.settings.about.info.title']()}
-	</p>
-	<p class="text-base tracking-wide lowercase lg:text-xl">
-		{m['app.settings.about.info.version']()} <span class="opacity-60">{packageJson.version}</span>
-	</p>
-	<p class="text-base tracking-wide lowercase lg:text-xl">
-		{m['app.settings.about.info.source']()}
-		<a
-			href="https://github.com/Stageddat/shelter-web"
+<SettingsSection title={m['app.settings.about.credits.title']()}>
+	<div>
+		<p class="mb-4 lowercase">{m['app.settings.about.credits.description']()}</p>
+		<Button
+			variant="outline"
+			class="w-full justify-between lowercase"
+			href={landingUrl('/credits')}
 			target="_blank"
 			rel="noopener noreferrer"
-			class="underline underline-offset-2 opacity-60 transition-opacity hover:opacity-100"
 		>
-			github.com/Stageddat/shelter-web
-		</a>
-	</p>
-	<p class="text-base tracking-wide lowercase lg:text-xl">
-		{m['app.settings.about.info.website']()}
-		<a
-			href={landingUrl()}
-			target="_blank"
-			rel="noopener noreferrer"
-			class="underline underline-offset-2 opacity-60 transition-opacity hover:opacity-100"
-		>
-			shelter.cat
-		</a>
-	</p>
-	<p class="text-base tracking-wide lg:text-xl">
-		{m['app.settings.about.info.license']()}
-		<a
-			href="https://github.com/Stageddat/shelter-web/blob/main/LICENSE"
-			target="_blank"
-			rel="noopener noreferrer"
-			class="underline underline-offset-2 opacity-60 transition-opacity hover:opacity-100"
-		>
-			GNU AFFERO GENERAL PUBLIC LICENSE v3.0
-		</a>
-	</p>
-	<p class="text-base tracking-wide lowercase lg:text-xl">
-		{m['app.settings.about.info.translations']()}
-		<a
-			href="https://i18n.stageddat.dev/projects/shelter-web/"
-			target="_blank"
-			rel="noopener noreferrer"
-			class="underline underline-offset-2 opacity-60 transition-opacity hover:opacity-100"
-		>
-			{m['app.settings.about.info.translationsLink']()}
-		</a>
-	</p>
-</div>
+			{m['app.settings.about.credits.seeAll']()}
+			<Users data-icon="inline-end" />
+		</Button>
+	</div>
+</SettingsSection>
 
-<hr class="border-current opacity-10" />
-
-<!-- credits -->
-<div class="my-4 flex flex-col gap-2">
-	<p class="tracking-widets text-xl uppercase lg:text-2xl">
-		{m['app.settings.about.credits.title']()}
-	</p>
-	<p class="text-base tracking-wide lowercase opacity-85 lg:text-xl">
-		{m['app.settings.about.credits.description']()}
-	</p>
-	<a
-		href={landingUrl('/credits')}
-		target="_blank"
-		class="flex w-full items-center justify-between rounded-lg border border-current px-4 py-2 text-base tracking-wider lowercase opacity-60 transition-opacity hover:opacity-100 lg:text-xl"
-	>
-		{m['app.settings.about.credits.seeAll']()}
-		<Users class="h-5! w-5!" />
-	</a>
-</div>
-
-<hr class="border-current opacity-10" />
-
-<!-- links -->
-<div class="my-4 gap-2">
-	<p class="tracking-widets mb-3 text-xl uppercase lg:text-2xl">
-		{m['app.settings.about.links.title']()}
-	</p>
-	<div class="grid grid-cols-2 gap-3 lg:flex lg:flex-row">
-		<a
+<SettingsSection title={m['app.settings.about.links.title']()}>
+	<div class="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap">
+		<Button
+			variant="outline"
+			class="lowercase"
 			href="https://github.com/Stageddat/shelter-web/issues"
 			target="_blank"
-			class="flex items-center rounded-lg border border-current px-4 py-2 text-base lowercase opacity-60 transition-opacity hover:opacity-100 lg:text-xl"
+			rel="noopener noreferrer"
 		>
-			<Bug class="mt-1 mr-2 h-5! w-5!" />{m['app.settings.about.links.reportBug']()}
-		</a>
-		<a
+			<Bug data-icon="inline-start" />
+			{m['app.settings.about.links.reportBug']()}
+		</Button>
+		<Button
+			variant="outline"
+			class="lowercase"
 			href="https://discord.gg/BntK5GbF2M"
 			target="_blank"
-			class="flex items-center rounded-lg border border-current px-4 py-2 text-base lowercase opacity-60 transition-opacity hover:opacity-100 lg:text-xl"
+			rel="noopener noreferrer"
 		>
-			<HouseHeart class="mt-1 mr-2 h-5! w-5!" />{m['app.settings.about.links.discord']()}
-		</a>
-		<a
+			<HouseHeart data-icon="inline-start" />
+			{m['app.settings.about.links.discord']()}
+		</Button>
+		<Button
+			variant="outline"
+			class="lowercase"
 			href="https://ko-fi.com/stageddat"
 			target="_blank"
-			class="flex items-center rounded-lg border border-current px-4 py-2 text-base lowercase opacity-60 transition-opacity hover:opacity-100 lg:text-xl"
+			rel="noopener noreferrer"
 		>
-			<Coffee class="mt-1 mr-2 h-5! w-5!" />{m['app.settings.about.links.kofi']()}
-		</a>
-		<a
+			<Coffee data-icon="inline-start" />
+			{m['app.settings.about.links.kofi']()}
+		</Button>
+		<Button
+			variant="outline"
+			class="lowercase"
 			href="https://github.com/Stageddat/shelter-web/blob/main/CONTRIBUTING.md"
 			target="_blank"
-			class="flex items-center rounded-lg border border-current px-4 py-2 text-base lowercase opacity-60 transition-opacity hover:opacity-100 lg:text-xl"
+			rel="noopener noreferrer"
 		>
-			<Globe class="mt-1 mr-2 h-5! w-5!" />{m['app.settings.about.links.translate']()}
-		</a>
+			<Globe data-icon="inline-start" />
+			{m['app.settings.about.links.translate']()}
+		</Button>
 	</div>
-</div>
+</SettingsSection>
