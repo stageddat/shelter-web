@@ -7,6 +7,8 @@
 	import type { SearchResult } from 'minisearch';
 	import { Search } from '@lucide/svelte';
 	import { m } from '$lib/paraglide/messages';
+	import AppPage from '$lib/components/app/AppPage.svelte';
+	import { InputGroup, InputGroupAddon, InputGroupInput } from 'shelter-assets';
 
 	const auth = getAuthContext();
 	const appContext = getAppContext();
@@ -97,42 +99,38 @@
 	<title>{m['metadata.search.title']()}</title>
 </svelte:head>
 
-<div class="mx-auto flex w-full max-w-4xl flex-col gap-5 px-4 py-6 lg:gap-6 lg:p-6">
-	<h1 class="text-3xl font-bold tracking-wide lowercase lg:text-4xl">{m['app.search.title']()}</h1>
-
-	<div class="relative flex w-full items-center">
-		<div
-			class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-muted-foreground"
-		>
-			<Search class="h-5 w-5" />
-		</div>
-		<input
+<AppPage title={m['app.search.title']()}>
+	<InputGroup>
+		<InputGroupAddon>
+			<Search />
+		</InputGroupAddon>
+		<InputGroupInput
 			type="text"
 			bind:value={query}
 			disabled={isLoading}
+			aria-label={m['app.search.title']()}
 			placeholder={isLoading ? m['app.search.placeholderLoading']() : m['app.search.placeholder']()}
-			class="w-full rounded-xl border bg-background p-3 pl-11 text-lg shadow-xs outline-none focus:ring-2 focus:ring-primary disabled:opacity-50 lg:p-4 lg:pl-12 lg:text-xl"
 		/>
-	</div>
+	</InputGroup>
 
 	{#if isLoading}
-		<p class="animate-pulse text-center font-sans text-lg text-muted-foreground lg:text-xl">
+		<p class="animate-pulse text-center text-muted-foreground">
 			{m['app.search.preparingEngine']()}
 		</p>
 	{:else}
-		<div class="flex flex-col gap-3 lg:gap-4">
+		<div class="flex flex-col gap-2">
 			{#each results as result, i (i)}
-				<div class="flex flex-col gap-1 rounded-xl border bg-card p-4 shadow-xs">
-					<h3 class="font-sans text-xl font-bold lg:text-2xl">{result.title}</h3>
-					<p class="mb-2 text-xs text-muted-foreground">{result.date}</p>
+				<div class="flex flex-col gap-2 rounded-xl border p-4">
+					<div>
+						<p>{result.title}</p>
+						<p class="text-sm text-muted-foreground">{result.date}</p>
+					</div>
 
 					{#if query.trim() !== ''}
-						<p
-							class="rounded-md border border-dashed bg-muted/30 p-2 font-sans text-sm leading-relaxed text-muted-foreground lg:text-base"
-						>
+						<p class="rounded-md bg-muted/50 p-2 text-sm text-muted-foreground">
 							{#each result.highlightTokens as token, i (i)}
 								{#if token.highlight}
-									<strong class="font-bold text-foreground">{token.text}</strong>
+									<strong class="font-semibold text-foreground">{token.text}</strong>
 								{:else}
 									{token.text}
 								{/if}
@@ -142,7 +140,7 @@
 
 					<a
 						href="/entries/{result.id}"
-						class="mt-2 inline-block self-start text-sm font-medium text-blue-500 hover:underline lg:text-base"
+						class="self-start text-sm underline underline-offset-2 hover:text-muted-foreground"
 					>
 						{m['app.search.openEntry']()}
 					</a>
@@ -156,4 +154,4 @@
 			{/each}
 		</div>
 	{/if}
-</div>
+</AppPage>
